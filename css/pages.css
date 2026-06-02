@@ -1,0 +1,376 @@
+/* ===== LOGIN PAGE ===== */
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: 
+    radial-gradient(ellipse at top left, rgba(99, 102, 241, 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at bottom right, rgba(6, 182, 212, 0.06) 0%, transparent 50%),
+    #fafbff;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 400px;
+  padding: var(--space-10);
+  border-radius: var(--radius-2xl);
+  box-shadow: var(--shadow-lg);
+  border: 1px solid rgba(0, 0, 0, 0.03);
+}
+
+.login-card__logo {
+  text-align: center;
+  margin-bottom: var(--space-10);
+}
+
+.login-card__logo h1 {
+  color: var(--color-primary);
+  font-size: var(--font-size-3xl);
+  letter-spacing: -0.04em;
+}
+
+.login-card__logo p {
+  color: var(--color-gray-400);
+  margin-top: var(--space-2);
+  font-size: var(--font-size-sm);
+}
+
+.login-card__tabs {
+  display: flex;
+  gap: var(--space-1);
+  margin-bottom: var(--space-8);
+  background-color: var(--color-gray-100);
+  padding: 4px;
+  border-radius: var(--radius-md);
+}
+
+.login-card__tab {
+  flex: 1;
+  padding: var(--space-3);
+  border: none;
+  background: transparent;
+  border-radius: var(--radius-sm);
+  font-weight: 500;
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+  transition: all var(--transition-base);
+  color: var(--color-gray-400);
+}
+
+.login-card__tab.active {
+  background-color: white;
+  color: var(--color-primary);
+  box-shadow: var(--shadow-sm);
+}
+
+.login-card__tab:hover:not(.active) {
+  color: var(--color-gray-600);
+}
+
+/* ===== DASHBOARD ===== */
+.dashboard {
+  padding: var(--space-10) 0;
+}
+
+.dashboard__header {
+  margin-bottom: var(--space-10);
+}
+
+.dashboard__header h2 {
+  margin-bottom: var(--space-1);
+}
+
+.dashboard__header p {
+  color: var(--color-gray-400);
+  font-size: var(--font-size-sm);
+}
+
+.dashboard__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--space-5);
+}
+
+.dashboard__stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: var(--space-4);
+  margin-bottom: var(--space-10);
+}
+
+.stat-card {
+  background-color: white;
+  border-radius: var(--radius-xl);
+  padding: var(--space-6) var(--space-5);
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-base);
+}
+
+.stat-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.stat-card__value {
+  font-size: var(--font-size-3xl);
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.stat-card__label {
+  font-size: var(--font-size-xs);
+  color: var(--color-gray-400);
+  margin-top: var(--space-1);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 500;
+}
+
+/* ===== PRESCRIPTION CARD ===== */
+.prescription-card {
+  position: relative;
+  border-radius: var(--radius-xl);
+}
+
+.prescription-card__medication {
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  color: var(--color-gray-900);
+  margin-bottom: var(--space-1);
+}
+
+.prescription-card__dosage {
+  color: var(--color-primary);
+  font-weight: 600;
+  font-size: var(--font-size-sm);
+  margin-bottom: var(--space-4);
+}
+
+.prescription-card__info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  font-size: var(--font-size-sm);
+  color: var(--color-gray-500);
+}
+
+.prescription-card__info-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.prescription-card__times {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: var(--space-4);
+}
+
+.time-badge {
+  background: linear-gradient(135deg, var(--color-primary-light), #e0e7ff);
+  color: var(--color-primary-dark);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+}
+
+/* ===== PATIENT LIST ===== */
+.patient-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.patient-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-4);
+  background-color: white;
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  cursor: pointer;
+  transition: all var(--transition-base);
+  box-shadow: var(--shadow-sm);
+}
+
+.patient-item:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+
+.patient-item__info {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.patient-item__avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-full);
+  background: linear-gradient(135deg, var(--color-primary-light), #e0e7ff);
+  color: var(--color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: var(--font-size-sm);
+}
+
+/* ===== MEDICATION ALERT ===== */
+.medication-alert {
+  background: linear-gradient(135deg, var(--color-primary) 0%, #4338ca 100%);
+  color: white;
+  border-radius: var(--radius-2xl);
+  padding: var(--space-10) var(--space-8);
+  text-align: center;
+  margin-bottom: var(--space-8);
+  box-shadow: 0 8px 32px rgba(99, 102, 241, 0.25);
+  position: relative;
+  overflow: hidden;
+}
+
+.medication-alert::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -30%;
+  width: 300px;
+  height: 300px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 50%;
+}
+
+.medication-alert__icon {
+  font-size: 3rem;
+  margin-bottom: var(--space-4);
+}
+
+.medication-alert__title {
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  margin-bottom: var(--space-2);
+  color: white;
+  opacity: 0.9;
+}
+
+.medication-alert__medication {
+  font-size: var(--font-size-2xl);
+  font-weight: 700;
+  margin-bottom: var(--space-6);
+}
+
+.medication-alert__actions {
+  display: flex;
+  gap: var(--space-3);
+  justify-content: center;
+}
+
+.medication-alert__actions .btn {
+  background-color: white;
+  color: var(--color-primary-dark);
+  font-weight: 600;
+  border-radius: var(--radius-md);
+}
+
+.medication-alert__actions .btn:hover {
+  background-color: var(--color-gray-100);
+  transform: translateY(-2px);
+}
+
+/* ===== DOSE HISTORY ===== */
+.dose-history {
+  margin-top: var(--space-4);
+}
+
+.dose-history__item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-4) 0;
+  border-bottom: 1px solid var(--color-gray-100);
+}
+
+.dose-history__item:last-child {
+  border-bottom: none;
+}
+
+.dose-history__status {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.dose-history__status--taken {
+  background-color: #ecfdf5;
+  color: #059669;
+}
+
+.dose-history__status--missed {
+  background-color: #fff1f2;
+  color: #e11d48;
+}
+
+.dose-history__status--pending {
+  background-color: var(--color-gray-100);
+  color: var(--color-gray-400);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 var(--space-4);
+  }
+
+  .dashboard__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard__stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .modal {
+    width: 95%;
+    padding: var(--space-6);
+    border-radius: var(--radius-xl);
+  }
+
+  .login-card {
+    padding: var(--space-8);
+    margin: var(--space-4);
+  }
+
+  .medication-alert {
+    padding: var(--space-8) var(--space-5);
+    border-radius: var(--radius-xl);
+  }
+
+  .medication-alert__actions {
+    flex-direction: column;
+  }
+
+  .toast-container {
+    right: var(--space-4);
+    left: var(--space-4);
+  }
+
+  .toast {
+    min-width: auto;
+  }
+}
