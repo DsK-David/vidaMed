@@ -1,8 +1,8 @@
 // ===== NOTIFICATIONS =====
-// Sistema de notificações e alertas de medicamento
+// Sistema de notificações e alertas de medicamento (client-side polling)
 
 import { store } from './store.js';
-import { isTimeInRange, getToday, generateId } from './utils.js';
+import { isTimeInRange, getToday } from './utils.js';
 
 class NotificationSystem {
   constructor() {
@@ -20,11 +20,11 @@ class NotificationSystem {
   start(patientId, onAlertCallback) {
     this.patientId = patientId;
     this.onAlert = onAlertCallback;
+    this.prescriptionsCache = null;
     this.requestPermission();
     
     // Verificar a cada 30 segundos
     this.checkInterval = setInterval(() => this._checkDoses(), 30000);
-    // Verificar imediatamente
     this._checkDoses();
   }
 
@@ -34,97 +34,39 @@ class NotificationSystem {
       this.checkInterval = null;
     }
     this.alertedDoses.clear();
+    this.prescriptionsCache = null;
   }
 
-  _checkDoses() {
+  async _checkDoses() {
     if (!this.patientId) return;
 
-    const prescriptions = store.getPrescriptionsByPatient(this.patientId);
-    const today = getToday();
-    const todayLogs = store.getTodayLogs(this.patientId);
-
-    prescriptions.forEach(prescription => {
-      // Verificar se prescrição está dentro do período
-      if (prescription.startDate > today || prescription.endDate < today) return;
-
-      prescription.times.forEach(time => {
-        const doseKey = `${prescription.id}-${today}-${time}`;
-        
-        // Já alertou ou já tomou?
-        if (this.alertedDoses.has(doseKey)) return;
-        
-        const alreadyLogged = todayLogs.find(
-          log => log.prescriptionId === prescription.id && log.time === time
-        );
-        if (alreadyLogged) return;
-
-        // Está na janela de tempo?
-        if (isTimeInRange(time)) {
-          this.alertedDoses.add(doseKey);
-          this._triggerAlert(prescription, time);
-        }
-      });
-    });
-  }
-
-  _triggerAlert(prescription, time) {
-    // Notificação do browser
-    if ('Notification' in window && Notification.permission === 'granted') {
-      new Notification('💊 Hora do Medicamento!', {
-        body: `${prescription.medication} - ${prescription.dosage}\nHorário: ${time}`,
-        icon: '💊',
-        tag: `dose-${prescription.id}-${time}`
-      });
-    }
-
-    // Alerta sonoro
-    this._playSound();
-
-    // Callback para UI
-    if (this.onAlert) {
-      this.onAlert(prescription, time);
-    }
-
-    // Criar log pendente
-    const doseLog = {
-      id: generateId(),
-      prescriptionId: prescription.id,
-      patientId: this.patientId,
-      scheduledTime: `${getToday()}T${time}:00`,
-      time: time,
-      takenAt: null,
-      status: 'pending'
-    };
-    store.addDoseLog(doseLog);
-  }
-
-  _playSound() {
     try {
-      const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      const oscillator = audioCtx.createOscillator();
-      const gainNode = audioCtx.createGain();
-      
-      oscillator.connect(gainNode);
-      gainNode.connect(audioCtx.destination);
-      
-      oscillator.frequency.value = 800;
-      oscillator.type = 'sine';
-      gainNode.gain.value = 0.3;
-      
-      oscillator.start();
-      setTimeout(() => {
-        oscillator.stop();
-        audioCtx.close();
-      }, 500);
-    } catch (e) {
-      // Audio não disponível
-    }
-  }
+      // Cache prescriptions to avoid repeated calls
+      if (!this.prescriptionsCache) {
+        this.prescriptionsCache = await store.getPrescriptionsByPatient(this.patientId);
+      }
 
-  getPendingDoses() {
-    const today = getToday();
-    const logs = store.getTodayLogs(this.patientId);
-    return logs.filter(l => l.status === 'pending');
+      const todayLogs = await store.getTodayLogs(this.patientId);
+      const pendingDoses = todayLogs.filter(l => l.status === 'pending');
+
+      for (const dose of pendingDoses) {
+        const doseKey = `${dose.prescriptionId}-${dose.time}`;
+        if (this.alertedDoses.has(doseKey)) continue;
+
+        if (isTimeInRange(dose.time)) {
+          this.alertedDoses.add(doseKey);
+          if (this.onAlert) {
+            const prescription = this.prescriptionsCache.find(p => p.id === dose.prescriptionId);
+            this.onAlert(
+              prescription || { medication: 'Medicamento', dosage: '' },
+              dose.time
+            );
+          }
+        }
+      }
+    } catch {
+      // API indisponível
+    }
   }
 }
 
@@ -139,7 +81,7 @@ export function showToast(message, type = 'info', duration = 5000) {
   toast.className = `toast toast--${type}`;
   toast.innerHTML = `
     <span>${message}</span>
-    <button onclick="this.parentElement.remove()" style="background:none;border:none;cursor:pointer;font-size:1.2rem;color:inherit;">×</button>
+    <button onclick="this.parentElement.remove()" style="background:none;border:none;cursor:pointer;font-size:1.2rem;color:inherit;display:flex;align-items:center;"><i class='bx bx-x'></i></button>
   `;
   
   container.appendChild(toast);

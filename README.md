@@ -1,8 +1,8 @@
-# VidaMed - Plataforma de Gestão de Medicamentos
+# MedControl - Plataforma de Gestão de Medicamentos
 
 ## Visão Geral
 
-VidaMed é uma plataforma web de gestão de medicamentos que conecta médicos e pacientes. O médico cadastra prescrições com horários e dosagens, e o paciente recebe alertas automáticos para tomar seus remédios no horário correto.
+MedControl é uma plataforma web de gestão de medicamentos que conecta médicos e pacientes. O médico cadastra prescrições com horários e dosagens, e o paciente recebe alertas automáticos para tomar seus remédios no horário correto.
 
 ---
 
@@ -171,5 +171,5 @@ vidaMed/
 - Suporte a múltiplos idiomas
 
 
-carlos@vidamed.com med123
+carlos@medcontrol.com med123
 maria@email.com pac123

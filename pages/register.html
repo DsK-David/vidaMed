@@ -1,0 +1,75 @@
+<div class="login-page">
+  <!-- Left: Informative Section -->
+  <div class="login-hero">
+    <div class="login-hero__content">
+      <div class="login-hero__brand">
+        <h1>Med<span>Control</span></h1>
+        <p class="login-hero__tagline">Gestão inteligente de medicamentos</p>
+      </div>
+
+      <p class="login-hero__description">
+        Crie sua conta e comece a receber alertas personalizados para nunca mais esquecer seus medicamentos.
+      </p>
+
+      <div class="login-hero__features">
+        <div class="login-hero__feature">
+          <span class="login-hero__feature-icon">✓</span>
+          <span>Cadastro rápido e simples</span>
+        </div>
+        <div class="login-hero__feature">
+          <span class="login-hero__feature-icon">✓</span>
+          <span>Comece a usar em segundos</span>
+        </div>
+        <div class="login-hero__feature">
+          <span class="login-hero__feature-icon">✓</span>
+          <span>Sem custos, 100% gratuito</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right: Register Form -->
+  <div class="login-form-section">
+    <div class="login-form-wrapper">
+      <div class="login-form__header">
+        <h2>Criar conta</h2>
+        <p>Preencha seus dados para começar</p>
+      </div>
+
+      <div class="login-card__tabs">
+        <button class="login-card__tab active" data-role="doctor">Sou Médico</button>
+        <button class="login-card__tab" data-role="patient">Sou Paciente</button>
+      </div>
+
+      <form id="register-form">
+        <div class="form-group">
+          <label class="form-label" for="reg-name">Nome completo</label>
+          <input class="form-input" type="text" id="reg-name" placeholder="Seu nome" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="reg-email">E-mail</label>
+          <input class="form-input" type="email" id="reg-email" placeholder="seu@email.com" required autocomplete="email">
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label" for="reg-password">Senha</label>
+          <input class="form-input" type="password" id="reg-password" placeholder="Mínimo 6 caracteres" required minlength="6" autocomplete="new-password">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="reg-password-confirm">Confirmar senha</label>
+          <input class="form-input" type="password" id="reg-password-confirm" placeholder="Repita a senha" required minlength="6" autocomplete="new-password">
+        </div>
+
+        <button type="submit" class="btn btn--primary btn--block btn--lg">Criar minha conta</button>
+        
+        <p id="register-error" class="form-error text-center mt-2 hidden"></p>
+      </form>
+
+      <div class="login-form__footer">
+        <p>Já tem conta? <a href="#login" id="link-login">Fazer login</a></p>
+      </div>
+    </div>
+  </div>
+</div>

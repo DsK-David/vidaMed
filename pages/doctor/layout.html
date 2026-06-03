@@ -1,0 +1,63 @@
+<div class="panel">
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar__top">
+      <div class="sidebar__brand">
+        <i class='bx bx-plus-medical sidebar__brand-icon'></i>
+        <h1 class="sidebar__brand-text">Med<span>Control</span></h1>
+      </div>
+      <button class="sidebar__toggle" id="btn-toggle-sidebar" title="Recolher menu">
+        <i class='bx bx-chevrons-left'></i>
+      </button>
+    </div>
+
+    <p class="sidebar__section-label">Menu</p>
+    <nav class="sidebar__nav">
+      <a href="#" class="sidebar__link active" data-section="overview">
+        <i class='bx bx-grid-alt'></i>
+        <span>Visão Geral</span>
+      </a>
+      <a href="#" class="sidebar__link" data-section="patients">
+        <i class='bx bx-group'></i>
+        <span>Meus Pacientes</span>
+      </a>
+      <a href="#" class="sidebar__link" data-section="prescriptions">
+        <i class='bx bx-capsule'></i>
+        <span>Prescrições</span>
+      </a>
+    </nav>
+
+    <p class="sidebar__section-label">Ações</p>
+    <nav class="sidebar__nav">
+      <a href="#" class="sidebar__link" data-section="new-prescription">
+        <i class='bx bx-list-plus'></i>
+        <span>Nova Prescrição</span>
+      </a>
+      <a href="#" class="sidebar__link" data-section="new-patient">
+        <i class='bx bx-user-plus'></i>
+        <span>Novo Paciente</span>
+      </a>
+    </nav>
+
+    <div class="sidebar__footer">
+      <div class="sidebar__user">
+        <div class="sidebar__user-avatar" id="doctor-avatar"></div>
+        <div class="sidebar__user-info">
+          <span class="sidebar__user-name" id="doctor-name"></span>
+          <span class="sidebar__user-role">Médico(a)</span>
+        </div>
+      </div>
+      <button class="btn btn--ghost" id="btn-logout" title="Sair"><i class='bx bx-log-out'></i></button>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="panel__content">
+    <div class="panel__topbar">
+      <h2 class="panel__title" id="panel-title">Visão Geral</h2>
+    </div>
+    <div class="panel__body" id="panel-body">
+      <!-- Content rendered dynamically -->
+    </div>
+  </main>
+</div>

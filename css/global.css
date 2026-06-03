@@ -6,27 +6,27 @@
 }
 
 :root {
-  /* Cores - paleta suave e moderna */
-  --color-primary: #6366f1;
-  --color-primary-dark: #4f46e5;
-  --color-primary-light: #eef2ff;
-  --color-primary-glow: rgba(99, 102, 241, 0.15);
-  --color-secondary: #06b6d4;
-  --color-secondary-dark: #0891b2;
-  --color-accent: #f472b6;
-  --color-danger: #f43f5e;
-  --color-warning: #fb923c;
-  --color-success: #34d399;
-  --color-gray-50: #fafafa;
-  --color-gray-100: #f5f5f5;
-  --color-gray-200: #e5e5e5;
-  --color-gray-300: #d4d4d4;
-  --color-gray-400: #a3a3a3;
-  --color-gray-500: #737373;
-  --color-gray-600: #525252;
-  --color-gray-700: #404040;
-  --color-gray-800: #262626;
-  --color-gray-900: #171717;
+  /* Cores - paleta medicinal */
+  --color-primary: #1a6fc4;
+  --color-primary-dark: #14568f;
+  --color-primary-light: #e8f2fc;
+  --color-primary-glow: rgba(26, 111, 196, 0.12);
+  --color-secondary: #2a9d8f;
+  --color-secondary-dark: #1f7a6e;
+  --color-accent: #264653;
+  --color-danger: #d62828;
+  --color-warning: #e07a2f;
+  --color-success: #2a9d8f;
+  --color-gray-50: #f8f9fa;
+  --color-gray-100: #f1f3f5;
+  --color-gray-200: #e2e6ea;
+  --color-gray-300: #ced4da;
+  --color-gray-400: #adb5bd;
+  --color-gray-500: #6c757d;
+  --color-gray-600: #495057;
+  --color-gray-700: #3d4349;
+  --color-gray-800: #2b3035;
+  --color-gray-900: #1a1d21;
 
   /* Tipografia */
   --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -63,7 +63,7 @@
   --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.05), 0 2px 4px rgba(0, 0, 0, 0.03);
   --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.06), 0 4px 8px rgba(0, 0, 0, 0.03);
   --shadow-xl: 0 24px 48px rgba(0, 0, 0, 0.08);
-  --shadow-glow: 0 4px 20px var(--color-primary-glow);
+  --shadow-glow: 0 2px 12px var(--color-primary-glow);
 
   /* Transições */
   --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
@@ -82,7 +82,7 @@ body {
   font-size: var(--font-size-base);
   line-height: 1.6;
   color: var(--color-gray-700);
-  background-color: #fafbff;
+  background-color: var(--color-gray-50);
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

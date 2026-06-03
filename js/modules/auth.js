@@ -5,45 +5,23 @@ import { store } from '../store.js';
 import { router } from '../router.js';
 import { sanitize } from '../utils.js';
 
-export function renderLogin() {
+async function loadTemplate(path) {
+  const response = await fetch(path);
+  return response.text();
+}
+
+export async function renderLogin() {
   const app = document.getElementById('app');
-  app.innerHTML = `
-    <div class="login-page">
-      <div class="card login-card">
-        <div class="login-card__logo">
-          <h1>Vida<span>Med</span></h1>
-          <p>Gestão inteligente de medicamentos</p>
-        </div>
-        
-        <div class="login-card__tabs">
-          <button class="login-card__tab active" data-role="doctor">Médico</button>
-          <button class="login-card__tab" data-role="patient">Paciente</button>
-        </div>
-
-        <form id="login-form">
-          <div class="form-group">
-            <label class="form-label" for="email">E-mail</label>
-            <input class="form-input" type="email" id="email" placeholder="seu@email.com" required>
-          </div>
-          
-          <div class="form-group">
-            <label class="form-label" for="password">Senha</label>
-            <input class="form-input" type="password" id="password" placeholder="••••••" required>
-          </div>
-
-          <button type="submit" class="btn btn--primary btn--block btn--lg">Entrar</button>
-          
-          <p class="text-center text-sm text-muted mt-4" id="login-hint">
-            Demo: carlos@vidamed.com / med123
-          </p>
-
-          <p id="login-error" class="form-error text-center mt-2 hidden"></p>
-        </form>
-      </div>
-    </div>
-  `;
-
+  const html = await loadTemplate('pages/login.html');
+  app.innerHTML = html;
   _bindLoginEvents();
+}
+
+export async function renderRegister() {
+  const app = document.getElementById('app');
+  const html = await loadTemplate('pages/register.html');
+  app.innerHTML = html;
+  _bindRegisterEvents();
 }
 
 function _bindLoginEvents() {
@@ -55,37 +33,143 @@ function _bindLoginEvents() {
       document.querySelectorAll('.login-card__tab').forEach(t => t.classList.remove('active'));
       tab.classList.add('active');
       selectedRole = tab.dataset.role;
-      
-      const hint = document.getElementById('login-hint');
-      if (selectedRole === 'doctor') {
-        hint.textContent = 'Demo: carlos@vidamed.com / med123';
-      } else {
-        hint.textContent = 'Demo: maria@email.com / pac123';
-      }
     });
   });
 
   // Form submit
-  document.getElementById('login-form').addEventListener('submit', (e) => {
+  document.getElementById('login-form').addEventListener('submit', async (e) => {
     e.preventDefault();
     const email = sanitize(document.getElementById('email').value.trim());
     const password = document.getElementById('password').value;
     const errorEl = document.getElementById('login-error');
 
-    const user = store.login(email, password, selectedRole);
-    
-    if (user) {
-      errorEl.classList.add('hidden');
-      if (user.role === 'doctor') {
-        router.navigate('doctor');
+    try {
+      const user = await store.login(email, password, selectedRole);
+      
+      if (user) {
+        errorEl.classList.add('hidden');
+        // Registrar push notifications após login
+        _registerPush();
+        if (user.role === 'doctor') {
+          router.navigate('doctor');
+        } else {
+          router.navigate('patient');
+        }
       } else {
-        router.navigate('patient');
+        errorEl.textContent = 'E-mail ou senha incorretos.';
+        errorEl.classList.remove('hidden');
       }
-    } else {
-      errorEl.textContent = 'E-mail ou senha incorretos.';
+    } catch {
+      errorEl.textContent = 'Erro ao conectar ao servidor.';
       errorEl.classList.remove('hidden');
     }
   });
+
+  // Link to register
+  document.getElementById('link-register')?.addEventListener('click', (e) => {
+    e.preventDefault();
+    router.navigate('register');
+  });
+}
+
+function _bindRegisterEvents() {
+  let selectedRole = 'doctor';
+
+  // Tabs
+  document.querySelectorAll('.login-card__tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.login-card__tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      selectedRole = tab.dataset.role;
+    });
+  });
+
+  // Form submit
+  document.getElementById('register-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const name = sanitize(document.getElementById('reg-name').value.trim());
+    const email = sanitize(document.getElementById('reg-email').value.trim());
+    const password = document.getElementById('reg-password').value;
+    const passwordConfirm = document.getElementById('reg-password-confirm').value;
+    const errorEl = document.getElementById('register-error');
+
+    if (password !== passwordConfirm) {
+      errorEl.textContent = 'As senhas não coincidem.';
+      errorEl.classList.remove('hidden');
+      return;
+    }
+
+    if (password.length < 6) {
+      errorEl.textContent = 'A senha deve ter pelo menos 6 caracteres.';
+      errorEl.classList.remove('hidden');
+      return;
+    }
+
+    try {
+      const user = await store.register(name, email, password, selectedRole);
+      if (user) {
+        _registerPush();
+        router.navigate(user.role === 'doctor' ? 'doctor' : 'patient');
+      }
+    } catch (err) {
+      errorEl.textContent = err.message || 'Erro ao criar conta.';
+      errorEl.classList.remove('hidden');
+    }
+  });
+
+  // Link to login
+  document.getElementById('link-login')?.addEventListener('click', (e) => {
+    e.preventDefault();
+    router.navigate('login');
+  });
+}
+
+async function _registerPush() {
+  try {
+    if (!('serviceWorker' in navigator) || !('PushManager' in window)) return;
+
+    // Request notification permission first
+    if (Notification.permission === 'default') {
+      const permission = await Notification.requestPermission();
+      if (permission !== 'granted') return;
+    } else if (Notification.permission === 'denied') {
+      return;
+    }
+
+    // Wait for service worker to be ready
+    const registration = await navigator.serviceWorker.ready;
+
+    // Check for existing subscription
+    const existingSub = await registration.pushManager.getSubscription();
+    if (existingSub) {
+      await store.subscribePush(existingSub);
+      return;
+    }
+
+    // Get VAPID key and create new subscription
+    const vapidKey = await store.getVapidKey();
+    if (!vapidKey) return;
+
+    const sub = await registration.pushManager.subscribe({
+      userVisibleOnly: true,
+      applicationServerKey: _urlBase64ToUint8Array(vapidKey)
+    });
+
+    await store.subscribePush(sub);
+  } catch (err) {
+    console.warn('[Push] Falha ao registrar push:', err.message);
+  }
+}
+
+function _urlBase64ToUint8Array(base64String) {
+  const padding = '='.repeat((4 - base64String.length % 4) % 4);
+  const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
+  const rawData = window.atob(base64);
+  const outputArray = new Uint8Array(rawData.length);
+  for (let i = 0; i < rawData.length; ++i) {
+    outputArray[i] = rawData.charCodeAt(i);
+  }
+  return outputArray;
 }
 
 export function logout() {

@@ -1,164 +1,162 @@
-// ===== STORE =====
-// Gerenciamento de estado com localStorage
+// ===== API STORE =====
+// Gerenciamento de estado via API REST
 
-const STORAGE_KEYS = {
-  USERS: 'vidamed_users',
-  PRESCRIPTIONS: 'vidamed_prescriptions',
-  DOSE_LOGS: 'vidamed_dose_logs',
-  CURRENT_USER: 'vidamed_current_user'
-};
+const API = '/api';
 
 class Store {
   constructor() {
-    this._initDefaults();
+    this._token = localStorage.getItem('medcontrol_token');
+    this._user = JSON.parse(localStorage.getItem('medcontrol_user') || 'null');
   }
 
-  _initDefaults() {
-    if (!localStorage.getItem(STORAGE_KEYS.USERS)) {
-      const defaultUsers = [
-        {
-          id: 'doctor-001',
-          name: 'Dr. Carlos Silva',
-          email: 'carlos@vidamed.com',
-          password: 'med123',
-          role: 'doctor',
-          createdAt: new Date().toISOString()
-        },
-        {
-          id: 'patient-001',
-          name: 'Maria Souza',
-          email: 'maria@email.com',
-          password: 'pac123',
-          role: 'patient',
-          doctorId: 'doctor-001',
-          createdAt: new Date().toISOString()
-        },
-        {
-          id: 'patient-002',
-          name: 'João Oliveira',
-          email: 'joao@email.com',
-          password: 'pac123',
-          role: 'patient',
-          doctorId: 'doctor-001',
-          createdAt: new Date().toISOString()
-        }
-      ];
-      this._save(STORAGE_KEYS.USERS, defaultUsers);
-    }
-
-    if (!localStorage.getItem(STORAGE_KEYS.PRESCRIPTIONS)) {
-      this._save(STORAGE_KEYS.PRESCRIPTIONS, []);
-    }
-
-    if (!localStorage.getItem(STORAGE_KEYS.DOSE_LOGS)) {
-      this._save(STORAGE_KEYS.DOSE_LOGS, []);
-    }
+  _headers() {
+    const h = { 'Content-Type': 'application/json' };
+    if (this._token) h['Authorization'] = `Bearer ${this._token}`;
+    return h;
   }
 
-  _get(key) {
-    const data = localStorage.getItem(key);
-    return data ? JSON.parse(data) : null;
-  }
-
-  _save(key, data) {
-    localStorage.setItem(key, JSON.stringify(data));
+  async _fetch(url, options = {}) {
+    options.headers = this._headers();
+    const res = await fetch(`${API}${url}`, options);
+    if (res.status === 401) {
+      this.logout();
+      window.location.hash = 'login';
+      throw new Error('Sessão expirada');
+    }
+    return res;
   }
 
   // === Auth ===
-  login(email, password, role) {
-    const users = this._get(STORAGE_KEYS.USERS) || [];
-    const user = users.find(u => u.email === email && u.password === password && u.role === role);
-    if (user) {
-      const { password: _, ...safeUser } = user;
-      this._save(STORAGE_KEYS.CURRENT_USER, safeUser);
-      return safeUser;
+  async login(email, password, role) {
+    const res = await fetch(`${API}/auth/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password, role })
+    });
+
+    if (!res.ok) return null;
+
+    const data = await res.json();
+    this._token = data.token;
+    this._user = data.user;
+    localStorage.setItem('medcontrol_token', data.token);
+    localStorage.setItem('medcontrol_user', JSON.stringify(data.user));
+    return data.user;
+  }
+
+  async register(name, email, password, role) {
+    const res = await fetch(`${API}/auth/register`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, email, password, role })
+    });
+
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.error);
     }
-    return null;
+
+    const data = await res.json();
+    this._token = data.token;
+    this._user = data.user;
+    localStorage.setItem('medcontrol_token', data.token);
+    localStorage.setItem('medcontrol_user', JSON.stringify(data.user));
+    return data.user;
   }
 
   logout() {
-    localStorage.removeItem(STORAGE_KEYS.CURRENT_USER);
+    this._token = null;
+    this._user = null;
+    localStorage.removeItem('medcontrol_token');
+    localStorage.removeItem('medcontrol_user');
   }
 
   getCurrentUser() {
-    return this._get(STORAGE_KEYS.CURRENT_USER);
+    return this._user;
   }
 
-  // === Users ===
-  getUsers() {
-    return this._get(STORAGE_KEYS.USERS) || [];
+  // === Patients ===
+  async getPatients() {
+    const res = await this._fetch('/patients');
+    return res.json();
   }
 
-  getPatients(doctorId) {
-    return this.getUsers().filter(u => u.role === 'patient' && u.doctorId === doctorId);
-  }
-
-  addPatient(patient) {
-    const users = this.getUsers();
-    users.push(patient);
-    this._save(STORAGE_KEYS.USERS, users);
+  async addPatient(patient) {
+    const res = await this._fetch('/patients', {
+      method: 'POST',
+      body: JSON.stringify(patient)
+    });
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.error);
+    }
+    return res.json();
   }
 
   // === Prescriptions ===
-  getPrescriptions() {
-    return this._get(STORAGE_KEYS.PRESCRIPTIONS) || [];
+  async getPrescriptionsByDoctor() {
+    const res = await this._fetch('/prescriptions');
+    return res.json();
   }
 
-  getPrescriptionsByDoctor(doctorId) {
-    return this.getPrescriptions().filter(p => p.doctorId === doctorId);
+  async getPrescriptionsByPatient(patientId) {
+    const res = await this._fetch(`/prescriptions?patientId=${patientId}`);
+    return res.json();
   }
 
-  getPrescriptionsByPatient(patientId) {
-    return this.getPrescriptions().filter(p => p.patientId === patientId && p.active);
-  }
-
-  addPrescription(prescription) {
-    const prescriptions = this.getPrescriptions();
-    prescriptions.push(prescription);
-    this._save(STORAGE_KEYS.PRESCRIPTIONS, prescriptions);
-  }
-
-  updatePrescription(id, updates) {
-    const prescriptions = this.getPrescriptions();
-    const index = prescriptions.findIndex(p => p.id === id);
-    if (index !== -1) {
-      prescriptions[index] = { ...prescriptions[index], ...updates };
-      this._save(STORAGE_KEYS.PRESCRIPTIONS, prescriptions);
+  async addPrescription(prescription) {
+    const res = await this._fetch('/prescriptions', {
+      method: 'POST',
+      body: JSON.stringify(prescription)
+    });
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.error);
     }
+    return res.json();
   }
 
-  deletePrescription(id) {
-    const prescriptions = this.getPrescriptions().filter(p => p.id !== id);
-    this._save(STORAGE_KEYS.PRESCRIPTIONS, prescriptions);
+  async updatePrescription(id, updates) {
+    await this._fetch(`/prescriptions/${id}`, {
+      method: 'PATCH',
+      body: JSON.stringify(updates)
+    });
   }
 
   // === Dose Logs ===
-  getDoseLogs() {
-    return this._get(STORAGE_KEYS.DOSE_LOGS) || [];
-  }
-
-  getDoseLogsByPatient(patientId) {
-    return this.getDoseLogs().filter(d => d.patientId === patientId);
-  }
-
-  getTodayLogs(patientId) {
+  async getTodayLogs(patientId) {
     const today = new Date().toISOString().split('T')[0];
-    return this.getDoseLogsByPatient(patientId).filter(d => d.scheduledTime.startsWith(today));
+    const res = await this._fetch(`/doses?patientId=${patientId}&date=${today}`);
+    return res.json();
   }
 
-  addDoseLog(log) {
-    const logs = this.getDoseLogs();
-    logs.push(log);
-    this._save(STORAGE_KEYS.DOSE_LOGS, logs);
+  async addDoseLog(log) {
+    const res = await this._fetch('/doses', {
+      method: 'POST',
+      body: JSON.stringify(log)
+    });
+    return res.json();
   }
 
-  updateDoseLog(id, updates) {
-    const logs = this.getDoseLogs();
-    const index = logs.findIndex(l => l.id === id);
-    if (index !== -1) {
-      logs[index] = { ...logs[index], ...updates };
-      this._save(STORAGE_KEYS.DOSE_LOGS, logs);
-    }
+  async updateDoseLog(id, updates) {
+    await this._fetch(`/doses/${id}`, {
+      method: 'PATCH',
+      body: JSON.stringify(updates)
+    });
+  }
+
+  // === Push ===
+  async getVapidKey() {
+    const res = await fetch(`${API}/push/vapid-key`);
+    const data = await res.json();
+    return data.publicKey;
+  }
+
+  async subscribePush(subscription) {
+    await this._fetch('/push/subscribe', {
+      method: 'POST',
+      body: JSON.stringify({ subscription })
+    });
   }
 }
 

@@ -1,0 +1,173 @@
+/* ===== PATIENT PANEL ===== */
+
+/* Re-use sidebar from doctor.css — patient-specific overrides here */
+
+.patient-panel .sidebar__user-avatar {
+  background-color: var(--color-secondary);
+}
+
+/* --- Section: Patient Overview --- */
+.patient-overview__alerts {
+  margin-bottom: var(--space-6);
+}
+
+.patient-overview__stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: var(--space-5);
+  margin-bottom: var(--space-8);
+}
+
+.patient-overview__stat {
+  background-color: white;
+  border-radius: var(--radius-lg);
+  padding: var(--space-5) var(--space-6);
+  border: 1px solid var(--color-gray-200);
+}
+
+.patient-overview__stat-value {
+  font-size: var(--font-size-3xl);
+  font-weight: 800;
+  color: var(--color-primary);
+}
+
+.patient-overview__stat-label {
+  font-size: var(--font-size-xs);
+  color: var(--color-gray-500);
+  margin-top: var(--space-1);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-weight: 500;
+}
+
+.patient-overview__stat--warning .patient-overview__stat-value {
+  color: #f59e0b;
+}
+
+.patient-overview__stat--success .patient-overview__stat-value {
+  color: #059669;
+}
+
+/* --- Alert Card (Inside Panel) --- */
+.dose-alert-card {
+  background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+  border-radius: var(--radius-lg);
+  padding: var(--space-5) var(--space-6);
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: var(--space-5);
+  margin-bottom: var(--space-4);
+  animation: pulse-soft 2s ease-in-out infinite;
+}
+
+@keyframes pulse-soft {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.2); }
+  50% { box-shadow: 0 0 0 8px rgba(37, 99, 235, 0); }
+}
+
+.dose-alert-card__icon {
+  font-size: 2rem;
+  flex-shrink: 0;
+}
+
+.dose-alert-card__info {
+  flex: 1;
+}
+
+.dose-alert-card__title {
+  font-weight: 700;
+  font-size: var(--font-size-base);
+  margin-bottom: 2px;
+}
+
+.dose-alert-card__medication {
+  opacity: 0.9;
+  font-size: var(--font-size-sm);
+}
+
+.dose-alert-card__actions {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.dose-alert-card__actions .btn {
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  font-size: var(--font-size-xs);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.dose-alert-card__actions .btn:hover {
+  background: rgba(255, 255, 255, 0.35);
+}
+
+.dose-alert-card__actions .btn--confirm {
+  background: rgba(255, 255, 255, 0.95);
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+.dose-alert-card__actions .btn--confirm:hover {
+  background: white;
+}
+
+/* --- Prescriptions Grid --- */
+.patient-prescriptions {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--space-5);
+}
+
+/* --- Dose History Panel --- */
+.dose-history-panel {
+  background-color: white;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-gray-200);
+  overflow: hidden;
+}
+
+.dose-history-panel__header {
+  padding: var(--space-5) var(--space-6);
+  border-bottom: 1px solid var(--color-gray-100);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.dose-history-panel__header h3 {
+  font-size: var(--font-size-base);
+  font-weight: 600;
+}
+
+.dose-history-panel__body {
+  padding: var(--space-4) var(--space-6);
+}
+
+.dose-history-panel__empty {
+  padding: var(--space-8);
+  text-align: center;
+  color: var(--color-gray-400);
+  font-size: var(--font-size-sm);
+}
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+  .dose-alert-card {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .dose-alert-card__actions {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .patient-prescriptions {
+    grid-template-columns: 1fr;
+  }
+}

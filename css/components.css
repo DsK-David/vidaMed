@@ -28,22 +28,25 @@
 }
 
 .btn--primary {
-  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+  background-color: var(--color-primary);
   color: white;
-  box-shadow: 0 2px 8px var(--color-primary-glow);
 }
 
 .btn--primary:hover {
-  box-shadow: var(--shadow-glow);
+  background-color: var(--color-primary-dark);
 }
 
 .btn--secondary {
-  background: linear-gradient(135deg, var(--color-secondary), var(--color-secondary-dark));
+  background-color: var(--color-secondary);
   color: white;
 }
 
+.btn--secondary:hover {
+  background-color: var(--color-secondary-dark);
+}
+
 .btn--danger {
-  background: linear-gradient(135deg, var(--color-danger), #e11d48);
+  background-color: var(--color-danger);
   color: white;
 }
 
@@ -361,8 +364,8 @@
 }
 
 @keyframes pulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.3); }
-  50% { box-shadow: 0 0 0 12px rgba(99, 102, 241, 0); }
+  0%, 100% { box-shadow: 0 0 0 0 rgba(26, 111, 196, 0.3); }
+  50% { box-shadow: 0 0 0 12px rgba(26, 111, 196, 0); }
 }
 
 /* ===== EMPTY STATE ===== */
