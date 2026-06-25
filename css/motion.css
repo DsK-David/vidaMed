@@ -1,0 +1,48 @@
+/* Motion system: keyframes and utility classes */
+@keyframes fadeUp {
+  from { transform: translateY(8px); opacity: 0; }
+  to   { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes floatSoft {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+  100% { transform: translateY(0); }
+}
+
+@keyframes pulseGlow {
+  0% { box-shadow: 0 0 0 0 rgba(26,111,196,0.14); }
+  70% { box-shadow: 0 0 0 10px rgba(26,111,196,0); }
+  100% { box-shadow: 0 0 0 0 rgba(26,111,196,0); }
+}
+
+.animate-fade-up {
+  animation: fadeUp var(--motion-duration-base) var(--motion-ease) both;
+}
+
+.animate-fade-up-fast {
+  animation: fadeUp var(--motion-duration-fast) var(--motion-ease) both;
+}
+
+.animate-float {
+  animation: floatSoft 6s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 2.2s ease-in-out infinite;
+}
+
+/* Utility for staggered children: add delay with --stagger-index */
+.stagger > * {
+  opacity: 0;
+  transform: translateY(8px);
+  animation: fadeUp var(--motion-duration-base) var(--motion-ease) forwards;
+  animation-delay: calc(var(--stagger-index, 0) * 80ms);
+}
+
+/* small motion helpers */
+.motion-focus {
+  transition: box-shadow var(--motion-duration-fast) var(--motion-ease), transform var(--motion-duration-fast) var(--motion-ease);
+}
+
+.motion-press:active { transform: translateY(1px) scale(0.998); }

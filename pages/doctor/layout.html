@@ -3,8 +3,8 @@
   <aside class="sidebar" id="sidebar">
     <div class="sidebar__top">
       <div class="sidebar__brand">
-        <i class='bx bx-plus-medical sidebar__brand-icon'></i>
-        <h1 class="sidebar__brand-text">Med<span>Control</span></h1>
+        <i class='bx bx-plus-medical sidebar__brand-icon animate-float' aria-hidden="true"></i>
+        <h1 class="sidebar__brand-text animate-fade-up">Med<span>Control</span></h1>
       </div>
       <button class="sidebar__toggle" id="btn-toggle-sidebar" title="Recolher menu">
         <i class='bx bx-chevrons-left'></i>
@@ -53,9 +53,53 @@
 
   <!-- Main Content -->
   <main class="panel__content">
-    <div class="panel__topbar">
-      <h2 class="panel__title" id="panel-title">Visão Geral</h2>
-    </div>
+    <header class="app-header">
+      <div class="app-header__left">
+        <button class="sidebar__toggle" id="btn-toggle-sidebar" aria-expanded="true" title="Recolher menu">
+          <i class='bx bx-chevrons-left'></i>
+        </button>
+        <div>
+          <h2 class="app-header__title" id="panel-title">Visão Geral</h2>
+          <p class="text-sm text-muted">Resumo rápido e acesso às ações</p>
+        </div>
+      </div>
+
+      <div class="app-header__actions">
+        <div class="search-wrapper">
+          <input class="form-input" type="search" placeholder="Buscar paciente, prescrição..." aria-label="Buscar">
+        </div>
+        <button class="btn btn--ghost" title="Notificações"><i class='bx bx-bell'></i></button>
+        <button class="btn btn--ghost" title="Configurações"><i class='bx bx-cog'></i></button>
+      </div>
+    </header>
+
+    <div class="panel__body" id="panel-body">
+      <section class="action-cards mt-4">
+        <div class="action-card" id="quick-new-prescription" role="button" tabindex="0">
+          <div class="action-card__icon"><i class="bx bx-notepad"></i></div>
+          <div>
+            <div class="action-card__title">Nova Prescrição</div>
+            <div class="action-card__desc">Criar receita rápida para um paciente</div>
+          </div>
+        </div>
+
+        <div class="action-card" id="quick-new-patient" role="button" tabindex="0">
+          <div class="action-card__icon"><i class="bx bx-user-plus"></i></div>
+          <div>
+            <div class="action-card__title">Novo Paciente</div>
+            <div class="action-card__desc">Adicionar paciente ao prontuário</div>
+          </div>
+        </div>
+
+        <div class="action-card" id="quick-schedule" role="button" tabindex="0">
+          <div class="action-card__icon"><i class="bx bx-calendar-event"></i></div>
+          <div>
+            <div class="action-card__title">Agendar</div>
+            <div class="action-card__desc">Marcar consulta ou lembrete</div>
+          </div>
+        </div>
+      </section>
+
     <div class="panel__body" id="panel-body">
       <!-- Content rendered dynamically -->
     </div>

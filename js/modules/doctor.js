@@ -38,11 +38,15 @@ function _bindSidebarEvents(user) {
   const toggleBtn = document.getElementById('btn-toggle-sidebar');
   const toggleIcon = toggleBtn.querySelector('i');
   toggleBtn.addEventListener('click', () => {
-    panel.classList.toggle('sidebar-collapsed');
-    if (panel.classList.contains('sidebar-collapsed')) {
+    const collapsed = panel.classList.toggle('sidebar-collapsed');
+    toggleBtn.setAttribute('aria-expanded', String(!collapsed));
+    toggleBtn.setAttribute('title', collapsed ? 'Abrir menu' : 'Recolher menu');
+    if (collapsed) {
       toggleIcon.className = 'bx bx-menu';
+      toggleIcon.style.transform = 'rotate(0deg)';
     } else {
       toggleIcon.className = 'bx bx-chevrons-left';
+      toggleIcon.style.transform = 'rotate(0deg)';
     }
   });
 
@@ -54,6 +58,11 @@ function _bindSidebarEvents(user) {
       _navigateTo(section, user);
     });
   });
+
+  // Quick action cards
+  document.getElementById('quick-new-prescription')?.addEventListener('click', () => _navigateTo('new-prescription', user));
+  document.getElementById('quick-new-patient')?.addEventListener('click', () => _navigateTo('new-patient', user));
+  document.getElementById('quick-schedule')?.addEventListener('click', () => showToast('Agenda', 'Funcionalidade de agendamento ainda não implementada'));
 }
 
 function _navigateTo(section, user) {
@@ -105,20 +114,32 @@ async function _renderOverview(container, user) {
   container.innerHTML = `
     <div class="overview__stats">
       <div class="overview__stat">
-        <div class="overview__stat-value">${patients.length}</div>
-        <div class="overview__stat-label">Pacientes</div>
+        <div class="overview__stat-icon"><i class="bx bx-user"></i></div>
+        <div>
+          <div class="overview__stat-value">${patients.length}</div>
+          <div class="overview__stat-label">Pacientes</div>
+        </div>
       </div>
       <div class="overview__stat">
-        <div class="overview__stat-value">${active.length}</div>
-        <div class="overview__stat-label">Prescrições Ativas</div>
+        <div class="overview__stat-icon"><i class="bx bx-capsule"></i></div>
+        <div>
+          <div class="overview__stat-value">${active.length}</div>
+          <div class="overview__stat-label">Prescrições Ativas</div>
+        </div>
       </div>
       <div class="overview__stat">
-        <div class="overview__stat-value">${inactive.length}</div>
-        <div class="overview__stat-label">Finalizadas</div>
+        <div class="overview__stat-icon"><i class="bx bx-check-circle"></i></div>
+        <div>
+          <div class="overview__stat-value">${inactive.length}</div>
+          <div class="overview__stat-label">Finalizadas</div>
+        </div>
       </div>
       <div class="overview__stat">
-        <div class="overview__stat-value">${prescriptions.length}</div>
-        <div class="overview__stat-label">Total Prescrições</div>
+        <div class="overview__stat-icon"><i class="bx bx-list-check"></i></div>
+        <div>
+          <div class="overview__stat-value">${prescriptions.length}</div>
+          <div class="overview__stat-label">Total Prescrições</div>
+        </div>
       </div>
     </div>
 
