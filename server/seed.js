@@ -2,7 +2,7 @@
 // Run: node server/seed.js
 // Insere usuários demo se não existirem
 
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
 const { init, getDb, runMigrations } = require('./db');
 

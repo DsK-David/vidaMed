@@ -1,6 +1,6 @@
 // ===== DATABASE (Knex + MySQL) =====
 const knex = require('knex');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
 
 let db;

@@ -3,7 +3,7 @@ const controller = require('../controllers/doctor.controller');
 const { requireAuth, apiAuth } = require('../middleware/auth.middleware');
 const { getDb } = require('../db');
 const crypto = require('crypto');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const push = require('../push');
 const scheduler = require('../scheduler');
 

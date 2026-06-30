@@ -2,7 +2,7 @@
   "version": 2,
   "builds": [
     {
-      "src": "server/index.js",
+      "src": "server/app.js",
       "use": "@vercel/node"
     }
   ],
@@ -10,10 +10,8 @@
     { "src": "/css/(.*)", "dest": "/css/$1" },
     { "src": "/js/(.*)", "dest": "/js/$1" },
     { "src": "/icons/(.*)", "dest": "/icons/$1" },
+    { "src": "/favicon.ico", "dest": "/favicon.ico" },
     { "src": "/sw.js", "dest": "/sw.js" },
-    { "src": "/(.*)", "dest": "/server/index.js" }
-  ],
-  "env": {
-    "NODE_ENV": "production"
-  }
+    { "src": "/(.*)", "dest": "/server/app.js" }
+  ]
 }
