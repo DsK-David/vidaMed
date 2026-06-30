@@ -1,42 +1,20 @@
 // ===== AUTH MODULE =====
-// Autenticação e gerenciamento de sessão
+// Autenticação via API + cookie
 
 import { store } from '../store.js';
-import { router } from '../router.js';
 import { sanitize } from '../utils.js';
 
-async function loadTemplate(path) {
-  const response = await fetch(path);
-  return response.text();
-}
-
-export async function renderLogin() {
-  const app = document.getElementById('app');
-  const html = await loadTemplate('pages/login.html');
-  app.innerHTML = html;
+export function renderLogin() {
   _bindLoginEvents();
+  _bindPasswordToggles();
 }
 
-export async function renderRegister() {
-  const app = document.getElementById('app');
-  const html = await loadTemplate('pages/register.html');
-  app.innerHTML = html;
+export function renderRegister() {
   _bindRegisterEvents();
+  _bindPasswordToggles();
 }
 
 function _bindLoginEvents() {
-  let selectedRole = 'doctor';
-
-  // Tabs
-  document.querySelectorAll('.login-card__tab').forEach(tab => {
-    tab.addEventListener('click', () => {
-      document.querySelectorAll('.login-card__tab').forEach(t => t.classList.remove('active'));
-      tab.classList.add('active');
-      selectedRole = tab.dataset.role;
-    });
-  });
-
-  // Form submit
   document.getElementById('login-form').addEventListener('submit', async (e) => {
     e.preventDefault();
     const email = sanitize(document.getElementById('email').value.trim());
@@ -44,16 +22,15 @@ function _bindLoginEvents() {
     const errorEl = document.getElementById('login-error');
 
     try {
-      const user = await store.login(email, password, selectedRole);
-      
+      const user = await store.login(email, password);
+
       if (user) {
         errorEl.classList.add('hidden');
-        // Registrar push notifications após login
-        _registerPush();
+        await _registerPush();
         if (user.role === 'doctor') {
-          router.navigate('doctor');
+          window.location.href = '/doctor';
         } else {
-          router.navigate('patient');
+          window.location.href = '/paciente';
         }
       } else {
         errorEl.textContent = 'E-mail ou senha incorretos.';
@@ -65,26 +42,13 @@ function _bindLoginEvents() {
     }
   });
 
-  // Link to register
   document.getElementById('link-register')?.addEventListener('click', (e) => {
     e.preventDefault();
-    router.navigate('register');
+    window.location.href = '/register';
   });
 }
 
 function _bindRegisterEvents() {
-  let selectedRole = 'doctor';
-
-  // Tabs
-  document.querySelectorAll('.login-card__tab').forEach(tab => {
-    tab.addEventListener('click', () => {
-      document.querySelectorAll('.login-card__tab').forEach(t => t.classList.remove('active'));
-      tab.classList.add('active');
-      selectedRole = tab.dataset.role;
-    });
-  });
-
-  // Form submit
   document.getElementById('register-form').addEventListener('submit', async (e) => {
     e.preventDefault();
     const name = sanitize(document.getElementById('reg-name').value.trim());
@@ -106,10 +70,10 @@ function _bindRegisterEvents() {
     }
 
     try {
-      const user = await store.register(name, email, password, selectedRole);
+      const user = await store.register(name, email, password, 'doctor');
       if (user) {
         _registerPush();
-        router.navigate(user.role === 'doctor' ? 'doctor' : 'patient');
+        window.location.href = '/doctor';
       }
     } catch (err) {
       errorEl.textContent = err.message || 'Erro ao criar conta.';
@@ -117,10 +81,9 @@ function _bindRegisterEvents() {
     }
   });
 
-  // Link to login
   document.getElementById('link-login')?.addEventListener('click', (e) => {
     e.preventDefault();
-    router.navigate('login');
+    window.location.href = '/';
   });
 }
 
@@ -128,7 +91,6 @@ async function _registerPush() {
   try {
     if (!('serviceWorker' in navigator) || !('PushManager' in window)) return;
 
-    // Request notification permission first
     if (Notification.permission === 'default') {
       const permission = await Notification.requestPermission();
       if (permission !== 'granted') return;
@@ -136,17 +98,13 @@ async function _registerPush() {
       return;
     }
 
-    // Wait for service worker to be ready
     const registration = await navigator.serviceWorker.ready;
-
-    // Check for existing subscription
     const existingSub = await registration.pushManager.getSubscription();
     if (existingSub) {
       await store.subscribePush(existingSub);
       return;
     }
 
-    // Get VAPID key and create new subscription
     const vapidKey = await store.getVapidKey();
     if (!vapidKey) return;
 
@@ -172,15 +130,33 @@ function _urlBase64ToUint8Array(base64String) {
   return outputArray;
 }
 
+function _bindPasswordToggles() {
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-toggle-password]');
+    if (!btn) return;
+
+    const input = document.getElementById(btn.dataset.togglePassword);
+    if (!input) return;
+
+    const isPassword = input.type === 'password';
+    input.type = isPassword ? 'text' : 'password';
+    btn.setAttribute('aria-label', isPassword ? 'Ocultar senha' : 'Mostrar senha');
+  });
+}
+
+export async function registerPush() {
+  await _registerPush();
+}
+
 export function logout() {
   store.logout();
-  router.navigate('login');
+  window.location.href = '/';
 }
 
 export function requireAuth(role) {
   const user = store.getCurrentUser();
   if (!user || user.role !== role) {
-    router.navigate('login');
+    window.location.href = '/';
     return null;
   }
   return user;

@@ -1,0 +1,92 @@
+<%- include('../../layouts/head', { title: 'Visão Geral' }) %>
+<div class="panel">
+  <%- include('../../includes/sidebar', { active: 'overview', user: user }) %>
+  <main class="panel__content">
+    <%- include('../../includes/header', { title: 'Visão Geral', subtitle: 'Resumo rápido e acesso às ações', user: user }) %>
+    <div class="panel__body" id="panel-body">
+      <section class="action-cards">
+        <a href="/doctor/nova-prescricao" class="action-card stagger-item" style="--i:0">
+          <div class="action-card__icon"><i class="bx bx-notepad"></i></div>
+          <div>
+            <div class="action-card__title">Nova Prescrição</div>
+            <div class="action-card__desc">Criar receita rápida para um paciente</div>
+          </div>
+        </a>
+        <a href="/doctor/novo-paciente" class="action-card stagger-item" style="--i:1">
+          <div class="action-card__icon"><i class="bx bx-user-plus"></i></div>
+          <div>
+            <div class="action-card__title">Novo Paciente</div>
+            <div class="action-card__desc">Adicionar paciente ao prontuário</div>
+          </div>
+        </a>
+        <div class="action-card stagger-item" style="--i:2" id="quick-schedule">
+          <div class="action-card__icon"><i class="bx bx-calendar-event"></i></div>
+          <div>
+            <div class="action-card__title">Agendar</div>
+            <div class="action-card__desc">Marcar consulta ou lembrete</div>
+          </div>
+        </div>
+      </section>
+
+      <div class="overview__stats">
+        <div class="overview__stat stagger-item" style="--i:3">
+          <div class="overview__stat-icon"><i class="bx bx-user"></i></div>
+          <div>
+            <div class="overview__stat-value"><%= patientsCount %></div>
+            <div class="overview__stat-label">Pacientes</div>
+          </div>
+        </div>
+        <div class="overview__stat stagger-item" style="--i:4">
+          <div class="overview__stat-icon"><i class="bx bx-capsule"></i></div>
+          <div>
+            <div class="overview__stat-value"><%= activeCount %></div>
+            <div class="overview__stat-label">Prescrições Ativas</div>
+          </div>
+        </div>
+        <div class="overview__stat stagger-item" style="--i:5">
+          <div class="overview__stat-icon"><i class="bx bx-check-circle"></i></div>
+          <div>
+            <div class="overview__stat-value"><%= inactiveCount %></div>
+            <div class="overview__stat-label">Finalizadas</div>
+          </div>
+        </div>
+        <div class="overview__stat stagger-item" style="--i:6">
+          <div class="overview__stat-icon"><i class="bx bx-list-check"></i></div>
+          <div>
+            <div class="overview__stat-value"><%= totalPrescriptions %></div>
+            <div class="overview__stat-label">Total Prescrições</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="overview__recent stagger-item" style="--i:7">
+        <h3>Últimas Prescrições</h3>
+        <% if (recentPrescriptions.length === 0) { %>
+          <p class="text-muted text-sm">Nenhuma prescrição ativa no momento.</p>
+        <% } else { %>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Paciente</th>
+                <th>Medicamento</th>
+                <th>Dosagem</th>
+                <th>Período</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% recentPrescriptions.forEach(function(p) { %>
+                <tr>
+                  <td><%= p.patientName %></td>
+                  <td><strong><%= p.medication %></strong></td>
+                  <td><%= p.dosage %></td>
+                  <td><%= p.startDate %> – <%= p.endDate %></td>
+                </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        <% } %>
+      </div>
+    </div>
+  </main>
+</div>
+<%- include('../../layouts/foot') %>

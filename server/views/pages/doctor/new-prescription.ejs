@@ -1,0 +1,106 @@
+<%- include('../../layouts/head', { title: 'Nova Prescrição' }) %>
+<div class="panel">
+  <%- include('../../includes/sidebar', { active: 'new-prescription', user: user }) %>
+  <main class="panel__content">
+    <%- include('../../includes/header', { title: 'Nova Prescrição', subtitle: 'Crie uma nova prescrição médica', user: user }) %>
+    <div class="panel__body" id="panel-body">
+      <% if (patients.length === 0) { %>
+        <div class="empty-state stagger-item" style="--i:0">
+          <div class="empty-state__icon">⚠️</div>
+          <div class="empty-state__text">Cadastre um paciente antes de criar prescrições</div>
+          <a href="/doctor/novo-paciente" class="btn btn--primary mt-4">Cadastrar Paciente</a>
+        </div>
+      <% } else { %>
+        <form id="form-prescription" class="presc-form stagger-item" style="--i:0" novalidate>
+
+          <!-- Patient -->
+          <div class="presc-form__section">
+            <div class="presc-form__section-label">Paciente</div>
+            <div class="combobox" data-combobox="patient">
+              <input class="combobox__input" type="text" placeholder=" " autocomplete="off" required>
+              <label class="combobox__label">Selecione o paciente</label>
+              <button class="combobox__toggle" type="button" tabindex="-1" aria-label="Abrir lista">
+                <i class='bx bx-chevron-down'></i>
+              </button>
+              <div class="combobox__dropdown" role="listbox">
+                <% patients.forEach(function(p) { %>
+                  <div class="combobox__option" role="option" data-value="<%= p.id %>"><%= p.name %></div>
+                <% }) %>
+              </div>
+            </div>
+            <input type="hidden" id="presc-patient" name="patientId" required>
+          </div>
+
+          <!-- Medication & Dosage -->
+          <div class="presc-form__section">
+            <div class="presc-form__section-label">Medicação</div>
+            <div class="presc-form__row">
+              <div class="combobox presc-form__grow" data-combobox="medication" data-creatable>
+                <input class="combobox__input" type="text" placeholder=" " autocomplete="off" required>
+                <label class="combobox__label">Medicamento</label>
+                <button class="combobox__toggle" type="button" tabindex="-1" aria-label="Abrir lista">
+                  <i class='bx bx-chevron-down'></i>
+                </button>
+                <div class="combobox__dropdown" role="listbox">
+                  <% medications.forEach(function(m) { %>
+                    <div class="combobox__option" role="option"><%= m %></div>
+                  <% }) %>
+                </div>
+              </div>
+              <div class="floating-input" style="flex:0 0 200px">
+                <input id="presc-dosage" placeholder=" " required>
+                <label>Dosagem</label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Schedule -->
+          <div class="presc-form__section">
+            <div class="presc-form__section-label">Agendamento</div>
+            <div class="presc-form__row presc-form__row--dates">
+              <div class="floating-input" style="flex:1">
+                <input type="date" id="presc-start" placeholder=" " required value="<%= getToday %>">
+                <label>Data Início</label>
+              </div>
+              <div class="floating-input" style="flex:1">
+                <input type="date" id="presc-end" placeholder=" " required>
+                <label>Data Fim</label>
+              </div>
+            </div>
+            <div class="presc-form__time-group">
+              <label class="presc-form__time-label">Horários</label>
+              <div class="presc-form__time-input-row">
+                <input type="time" id="presc-time-input" class="presc-form__time-input" value="08:00">
+                <button type="button" class="presc-form__time-add" id="btn-add-time">Adicionar</button>
+              </div>
+              <div class="presc-form__chips" id="presc-chips"></div>
+              <div id="presc-time-error" class="presc-form__error hidden"></div>
+              <input type="hidden" id="presc-times" name="times" required>
+            </div>
+          </div>
+
+          <!-- Instructions -->
+          <div class="presc-form__section">
+            <div class="presc-form__section-label">Instruções</div>
+            <div class="floating-input">
+              <textarea id="presc-instructions" placeholder=" "></textarea>
+              <label>Instruções de uso (opcional)</label>
+            </div>
+          </div>
+
+          <div class="presc-form__actions">
+            <button type="submit" class="btn btn--primary btn--lg">
+              <i class='bx bx-plus-circle'></i>
+              Criar Prescrição
+            </button>
+          </div>
+        </form>
+      <% } %>
+    </div>
+  </main>
+</div>
+<script type="module">
+  import { initNewPrescription } from '/js/modules/doctor.js';
+  initNewPrescription();
+</script>
+<%- include('../../layouts/foot') %>

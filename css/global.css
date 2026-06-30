@@ -6,83 +6,128 @@
 }
 
 :root {
-  /* Cores - paleta medicinal */
-  --color-primary: #1a6fc4;
-  --color-primary-dark: #14568f;
-  --color-primary-light: #e8f2fc;
-  --color-primary-glow: rgba(26, 111, 196, 0.12);
-  --color-secondary: #2a9d8f;
-  --color-secondary-dark: #1f7a6e;
-  --color-accent: #264653;
-  --color-danger: #d62828;
-  --color-warning: #e07a2f;
-  --color-success: #2a9d8f;
-  --color-gray-50: #f8f9fa;
-  --color-gray-100: #f1f3f5;
-  --color-gray-200: #e2e6ea;
-  --color-gray-300: #ced4da;
-  --color-gray-400: #adb5bd;
-  --color-gray-500: #6c757d;
-  --color-gray-600: #495057;
-  --color-gray-700: #3d4349;
-  --color-gray-800: #2b3035;
-  --color-gray-900: #1a1d21;
+  /* === Gray Scale (10 passos — Vercel pattern) === */
+  --ds-gray-100:  #f8f9fa;
+  --ds-gray-200:  #f1f3f5;
+  --ds-gray-300:  #e2e6ea;
+  --ds-gray-400:  #ced4da;
+  --ds-gray-500:  #adb5bd;
+  --ds-gray-600:  #6c757d;
+  --ds-gray-700:  #495057;
+  --ds-gray-800:  #3d4349;
+  --ds-gray-900:  #2b3035;
+  --ds-gray-1000: #1a1d21;
 
-  /* Tipografia */
-  --font-family: 'Work Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --font-size-xs: 0.75rem;
-  --font-size-sm: 0.875rem;
-  --font-size-base: 1rem;
-  --font-size-lg: 1.125rem;
-  --font-size-xl: 1.25rem;
-  --font-size-2xl: 1.5rem;
-  --font-size-3xl: 2rem;
+  /* Gray-Alpha (bordas/overlays sobre qlqr fundo) */
+  --ds-gray-alpha-100: rgba(0,0,0,0.04);
+  --ds-gray-alpha-200: rgba(0,0,0,0.06);
+  --ds-gray-alpha-300: rgba(0,0,0,0.08);
+  --ds-gray-alpha-400: rgba(0,0,0,0.12);
+  --ds-gray-alpha-500: rgba(0,0,0,0.20);
+  --ds-gray-alpha-600: rgba(0,0,0,0.28);
+  --ds-gray-alpha-700: rgba(0,0,0,0.36);
+  --ds-gray-alpha-800: rgba(0,0,0,0.48);
+  --ds-gray-alpha-900: rgba(0,0,0,0.60);
+  --ds-gray-alpha-1000: rgba(0,0,0,0.80);
 
-  /* Espaçamento */
-  --space-1: 0.25rem;
-  --space-2: 0.5rem;
-  --space-3: 0.75rem;
-  --space-4: 1rem;
-  --space-5: 1.25rem;
-  --space-6: 1.5rem;
-  --space-8: 2rem;
-  --space-10: 2.5rem;
-  --space-12: 3rem;
-  --space-16: 4rem;
+  /* === Aceno Medicinal === */
+  --ds-blue:       #1a6fc4;
+  --ds-blue-dark:  #14568f;
+  --ds-blue-light: #e8f2fc;
+  --ds-teal:       #2a9d8f;
+  --ds-teal-dark:  #1f7a6e;
+  --ds-teal-light: #e0f5f0;
+  --ds-danger:     #d62828;
+  --ds-warning:    #e07a2f;
+  --ds-success:    #2a9d8f;
 
-  /* Bordas */
-  --radius-sm: 0.5rem;
-  --radius-md: 0.75rem;
-  --radius-lg: 1rem;
-  --radius-xl: 1.25rem;
-  --radius-2xl: 1.5rem;
-  --radius-full: 9999px;
+  /* === Backgrounds === */
+  --ds-background-100: #ffffff;
+  --ds-background-200: #f8f9fa;
 
-  /* Sombras - mais suaves e difusas */
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.05), 0 2px 4px rgba(0, 0, 0, 0.03);
-  --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.06), 0 4px 8px rgba(0, 0, 0, 0.03);
-  --shadow-xl: 0 24px 48px rgba(0, 0, 0, 0.08);
-  --shadow-glow: 0 2px 12px var(--color-primary-glow);
+  /* === Sidebar === */
+  --ds-sidebar-bg:       #062e3a;
+  --ds-sidebar-bg-dark:  #042028;
+  --ds-sidebar-accent:   #17c3b2;
 
-  /* Transições */
-  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-bounce: 500ms cubic-bezier(0.34, 1.56, 0.64, 1);
-  
-  /* Motion tokens (consolidated) */
-  --motion-duration-fast: 220ms;
-  --motion-duration-base: 420ms;
-  --motion-ease: cubic-bezier(0.2, 0.9, 0.3, 1);
+  /* === Login === */
+  --ds-accent:       #2dd4a8;
+  --ds-accent-dim:   rgba(45,212,168,0.12);
+  --ds-bg-dark:      #0a0f0e;
+  --ds-surface-dark: #141a19;
 
-  /* Sidebar colors and sizing */
+  /* === Tipografia — Vercel Scale === */
+  --ds-font-sans:    'Work Sans', -apple-system, system-ui, 'Segoe UI', Roboto, sans-serif;
+  --ds-font-display: 'Syne', var(--ds-font-sans);
+  --ds-font-display-alt: 'Poppins', var(--ds-font-sans);
+  --ds-font-mono:    'Geist Mono', 'SF Mono', 'SFMono-Regular', Consolas, 'Liberation Mono', monospace;
+
+  /* Headings (Poppins) */
+  --ds-heading-48: 48px;
+  --ds-heading-40: 40px;
+  --ds-heading-32: 32px;
+  --ds-heading-24: 24px;
+  --ds-heading-20: 20px;
+  --ds-heading-16: 16px;
+  --ds-heading-14: 14px;
+
+  /* Labels (Work Sans) */
+  --ds-label-16: 16px;
+  --ds-label-14: 14px;
+  --ds-label-13: 13px;
+  --ds-label-12: 12px;
+
+  /* Copy (Work Sans) */
+  --ds-copy-16: 16px;
+  --ds-copy-14: 14px;
+  --ds-copy-13: 13px;
+
+  /* Buttons (Work Sans) */
+  --ds-button-16: 16px;
+  --ds-button-14: 14px;
+  --ds-button-12: 12px;
+
+  /* === Espaçamento — Escala 4px === */
+  --ds-space-1:   4px;
+  --ds-space-2:   8px;
+  --ds-space-3:   12px;
+  --ds-space-4:   16px;
+  --ds-space-5:   20px;
+  --ds-space-6:   24px;
+  --ds-space-8:   32px;
+  --ds-space-10:  40px;
+  --ds-space-12:  48px;
+  --ds-space-16:  64px;
+  --ds-space-24:  96px;
+  --ds-space-32:  128px;
+
+  /* === Border Radius (Vercel) === */
+  --ds-radius-none: 0px;
+  --ds-radius-sm:   4px;
+  --ds-radius-md:   6px;
+  --ds-radius-lg:   8px;
+  --ds-radius-xl:   12px;
+  --ds-radius-full: 9999px;
+
+  /* === Sombras — Layered (2 camadas) === */
+  --ds-shadow-card:      0 0 0 1px rgba(0,0,0,0.04), 0 1px 3px rgba(0,0,0,0.04);
+  --ds-shadow-card-hover: 0 0 0 1px rgba(0,0,0,0.06), 0 4px 12px rgba(0,0,0,0.06);
+  --ds-shadow-modal:      0 0 0 1px rgba(0,0,0,0.08), 0 20px 48px rgba(0,0,0,0.12);
+  --ds-shadow-dropdown:   0 0 0 1px rgba(0,0,0,0.06), 0 8px 24px rgba(0,0,0,0.08);
+  --ds-shadow-toast:      0 0 0 1px rgba(0,0,0,0.08), 0 12px 32px rgba(0,0,0,0.12);
+  --ds-shadow-glow:       0 2px 12px rgba(26,111,196,0.12);
+
+  /* === Transições === */
+  --ds-duration-fast:   150ms;
+  --ds-duration-normal: 200ms;
+  --ds-duration-slow:   300ms;
+  --ds-ease-in:     cubic-bezier(0.4, 0, 1, 1);
+  --ds-ease-out:    cubic-bezier(0, 0, 0.2, 1);
+  --ds-ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* === Layout === */
   --sidebar-width: 240px;
   --sidebar-collapsed-width: 60px;
-  --color-sidebar: #062e3a;
-  --color-sidebar-dark: #042028;
-  --color-sidebar-accent: #17c3b2;
-  --color-sidebar-muted: rgba(255,255,255,0.06);
 }
 
 html {
@@ -91,11 +136,11 @@ html {
 }
 
 body {
-  font-family: var(--font-family);
-  font-size: var(--font-size-base);
-  line-height: 1.6;
-  color: var(--color-gray-700);
-  background-color: var(--color-gray-50);
+  font-family: var(--ds-font-sans);
+  font-size: var(--ds-copy-14);
+  line-height: 1.5;
+  color: var(--ds-gray-700);
+  background-color: var(--ds-background-200);
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -103,26 +148,25 @@ body {
 
 h1, h2, h3, h4, h5, h6 {
   line-height: 1.3;
-  font-weight: 700;
-  color: var(--color-gray-900);
+  font-weight: 600;
+  color: var(--ds-gray-1000);
   letter-spacing: -0.02em;
 }
 
-/* Headings use the display font for stronger presence */
-h1, h2, h3 { font-family: 'Poppins', var(--font-family); }
+h1, h2, h3 { font-family: var(--ds-font-display); }
 
-h1 { font-size: var(--font-size-3xl); }
-h2 { font-size: var(--font-size-2xl); }
-h3 { font-size: var(--font-size-xl); }
+h1 { font-size: var(--ds-heading-32); }
+h2 { font-size: var(--ds-heading-24); }
+h3 { font-size: var(--ds-heading-20); }
 
 a {
-  color: var(--color-primary);
+  color: var(--ds-blue);
   text-decoration: none;
-  transition: color var(--transition-fast);
+  transition: color var(--ds-duration-fast) var(--ds-ease-out);
 }
 
 a:hover {
-  color: var(--color-primary-dark);
+  color: var(--ds-blue-dark);
 }
 
 ul, ol {
@@ -139,12 +183,18 @@ input, button, textarea, select {
   font-size: inherit;
 }
 
+/* Focus ring — two-layer (Vercel) */
+:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--ds-background-100), 0 0 0 4px var(--ds-blue);
+}
+
 /* ===== UTILITIES ===== */
 .container {
   width: 100%;
   max-width: 1100px;
   margin: 0 auto;
-  padding: 0 var(--space-6);
+  padding: 0 var(--ds-space-6);
 }
 
 .sr-only {
@@ -163,12 +213,12 @@ input, button, textarea, select {
 }
 
 .text-center { text-align: center; }
-.text-sm { font-size: var(--font-size-sm); }
-.text-muted { color: var(--color-gray-500); }
+.text-sm { font-size: var(--ds-copy-13); }
+.text-muted { color: var(--ds-gray-500); }
 
-.mt-2 { margin-top: var(--space-2); }
-.mt-4 { margin-top: var(--space-4); }
-.mt-6 { margin-top: var(--space-6); }
-.mb-2 { margin-bottom: var(--space-2); }
-.mb-4 { margin-bottom: var(--space-4); }
-.mb-6 { margin-bottom: var(--space-6); }
+.mt-2 { margin-top: var(--ds-space-2); }
+.mt-4 { margin-top: var(--ds-space-4); }
+.mt-6 { margin-top: var(--ds-space-6); }
+.mb-2 { margin-bottom: var(--ds-space-2); }
+.mb-4 { margin-bottom: var(--ds-space-4); }
+.mb-6 { margin-bottom: var(--ds-space-6); }

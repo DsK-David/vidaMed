@@ -20,18 +20,18 @@ class Store {
     const res = await fetch(`${API}${url}`, options);
     if (res.status === 401) {
       this.logout();
-      window.location.hash = 'login';
+      window.location.href = '/';
       throw new Error('Sessão expirada');
     }
     return res;
   }
 
   // === Auth ===
-  async login(email, password, role) {
+  async login(email, password) {
     const res = await fetch(`${API}/auth/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password, role })
+      body: JSON.stringify({ email, password })
     });
 
     if (!res.ok) return null;
@@ -143,6 +143,13 @@ class Store {
       method: 'PATCH',
       body: JSON.stringify(updates)
     });
+  }
+
+  // === Medications ===
+  async getMedications() {
+    const prescriptions = await this.getPrescriptionsByDoctor();
+    const meds = [...new Set(prescriptions.map(p => p.medication).filter(Boolean))];
+    return meds.sort();
   }
 
   // === Push ===

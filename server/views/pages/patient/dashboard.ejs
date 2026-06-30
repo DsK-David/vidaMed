@@ -1,0 +1,75 @@
+<%- include('../../layouts/head', { title: 'Meu Painel' }) %>
+<div class="panel">
+  <%- include('../../includes/sidebar-patient', { active: 'dashboard', user: user }) %>
+  <main class="panel__content">
+    <%- include('../../includes/header', { title: 'Meu Painel', subtitle: 'Acompanhe seus medicamentos e prescrições', user: user }) %>
+    <div class="panel__body" id="panel-body">
+      <% if (prescriptions.length === 0) { %>
+        <div class="empty-state">
+          <div class="empty-state__icon"><i class='bx bx-plus-medical'></i></div>
+          <p class="empty-state__text">Nenhuma prescrição ativa no momento.</p>
+        </div>
+      <% } else { %>
+        <div class="patient-stats">
+          <div class="patient-stat">
+            <div class="patient-stat__value"><%= prescriptions.length %></div>
+            <div class="patient-stat__label">Medicamentos</div>
+          </div>
+          <div class="patient-stat">
+            <div class="patient-stat__value" id="doses-today"><%= dosesToday %></div>
+            <div class="patient-stat__label">Doses Hoje</div>
+          </div>
+          <div class="patient-stat patient-stat--success">
+            <div class="patient-stat__value" id="doses-taken"><%= dosesTaken %></div>
+            <div class="patient-stat__label">Tomadas</div>
+          </div>
+          <div class="patient-stat patient-stat--warning">
+            <div class="patient-stat__value" id="doses-pending"><%= dosesPending %></div>
+            <div class="patient-stat__label">Pendentes</div>
+          </div>
+        </div>
+
+        <% if (dosesPending > 0) { %>
+          <div class="alert-banner" id="pending-banner">
+            <i class='bx bx-bell'></i>
+            <span><strong><%= dosesPending %></strong> dose(s) pendente(s) — clique no botão <strong>✓</strong> para confirmar</span>
+          </div>
+        <% } %>
+
+        <div class="patient-prescriptions">
+          <% prescriptions.forEach(function(p) { %>
+            <div class="card prescription-card" data-prescription-id="<%= p.id %>">
+              <div class="card__header">
+                <h3 class="card__title"><%= p.medication %></h3>
+                <span class="badge badge--success">Ativa</span>
+              </div>
+              <div class="prescription-card__dosage"><%= p.dosage %></div>
+              <div class="prescription-card__info">
+                <div class="prescription-card__info-item">
+                  <i class='bx bx-calendar'></i>
+                  <span><%= p.startDate %> – <%= p.endDate %></span>
+                </div>
+                <div class="prescription-card__info-item">
+                  <i class='bx bx-time-five'></i>
+                  <span><%= p.times.join(', ') %></span>
+                </div>
+                <% if (p.instructions) { %>
+                  <div class="prescription-card__info-item">
+                    <i class='bx bx-info-circle'></i>
+                    <span><%= p.instructions %></span>
+                  </div>
+                <% } %>
+              </div>
+              <div class="card__footer prescription-card__actions" id="doses-<%= p.id %>"></div>
+            </div>
+          <% }) %>
+        </div>
+      <% } %>
+    </div>
+  </main>
+</div>
+<script type="module">
+  import { initPatientDashboard } from '/js/modules/patient.js';
+  initPatientDashboard(<%= JSON.stringify(prescriptions) %>, '<%= user.id %>');
+</script>
+<%- include('../../layouts/foot') %>

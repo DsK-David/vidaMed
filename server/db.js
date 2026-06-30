@@ -85,13 +85,12 @@ async function _seedDefaults() {
   const patient1Id = crypto.randomUUID();
   const patient2Id = crypto.randomUUID();
 
-  const doctorHash = await bcrypt.hash('med123', 10);
-  const patientHash = await bcrypt.hash('pac123', 10);
+  const hash = await bcrypt.hash('123456', 10);
 
   await db('users').insert([
-    { id: doctorId, name: 'Dr. Carlos Silva', email: 'carlos@medcontrol.com', password: doctorHash, role: 'doctor', doctor_id: null },
-    { id: patient1Id, name: 'Maria Souza', email: 'maria@email.com', password: patientHash, role: 'patient', doctor_id: doctorId },
-    { id: patient2Id, name: 'João Oliveira', email: 'joao@email.com', password: patientHash, role: 'patient', doctor_id: doctorId }
+    { id: doctorId, name: 'Drª. Sofia Mendes', email: 'sofia@clinica.com', password: hash, role: 'doctor', doctor_id: null },
+    { id: patient1Id, name: 'David Almeida', email: 'david@email.com', password: hash, role: 'patient', doctor_id: doctorId },
+    { id: patient2Id, name: 'João Oliveira', email: 'joao@email.com', password: hash, role: 'patient', doctor_id: doctorId }
   ]);
 }
 

@@ -1,4 +1,5 @@
 /* Motion system: keyframes and utility classes */
+
 @keyframes fadeUp {
   from { transform: translateY(8px); opacity: 0; }
   to   { transform: translateY(0); opacity: 1; }
@@ -17,11 +18,11 @@
 }
 
 .animate-fade-up {
-  animation: fadeUp var(--motion-duration-base) var(--motion-ease) both;
+  animation: fadeUp var(--ds-duration-normal) var(--ds-ease-out) both;
 }
 
 .animate-fade-up-fast {
-  animation: fadeUp var(--motion-duration-fast) var(--motion-ease) both;
+  animation: fadeUp var(--ds-duration-fast) var(--ds-ease-out) both;
 }
 
 .animate-float {
@@ -32,17 +33,27 @@
   animation: pulseGlow 2.2s ease-in-out infinite;
 }
 
-/* Utility for staggered children: add delay with --stagger-index */
+/* Staggered children: add delay with --stagger-index */
 .stagger > * {
   opacity: 0;
   transform: translateY(8px);
-  animation: fadeUp var(--motion-duration-base) var(--motion-ease) forwards;
+  animation: fadeUp var(--ds-duration-normal) var(--ds-ease-out) forwards;
   animation-delay: calc(var(--stagger-index, 0) * 80ms);
 }
 
-/* small motion helpers */
+/* Small motion helpers */
 .motion-focus {
-  transition: box-shadow var(--motion-duration-fast) var(--motion-ease), transform var(--motion-duration-fast) var(--motion-ease);
+  transition: box-shadow var(--ds-duration-fast) var(--ds-ease-out), transform var(--ds-duration-fast) var(--ds-ease-out);
 }
 
 .motion-press:active { transform: translateY(1px) scale(0.998); }
+
+/* Reduced motion — Vercel */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

@@ -1,8 +1,40 @@
 // ===== NOTIFICATIONS =====
-// Sistema de notificações e alertas de medicamento (client-side polling)
+// Sistema de notificações e alertas de medicamento
 
 import { store } from './store.js';
 import { isTimeInRange, getToday } from './utils.js';
+
+// Cache de áudio para tocar alarme
+let audioCtx = null;
+
+function playAlarm() {
+  try {
+    if (!audioCtx) {
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    if (audioCtx.state === 'suspended') {
+      audioCtx.resume();
+    }
+
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(880, audioCtx.currentTime);
+    osc.frequency.setValueAtTime(660, audioCtx.currentTime + 0.3);
+    osc.frequency.setValueAtTime(880, audioCtx.currentTime + 0.6);
+
+    gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 1);
+
+    osc.start(audioCtx.currentTime);
+    osc.stop(audioCtx.currentTime + 1);
+  } catch {
+    // Áudio não disponível
+  }
+}
 
 class NotificationSystem {
   constructor() {
@@ -22,9 +54,9 @@ class NotificationSystem {
     this.onAlert = onAlertCallback;
     this.prescriptionsCache = null;
     this.requestPermission();
-    
-    // Verificar a cada 30 segundos
-    this.checkInterval = setInterval(() => this._checkDoses(), 30000);
+
+    // Verificar a cada 15 segundos
+    this.checkInterval = setInterval(() => this._checkDoses(), 15000);
     this._checkDoses();
   }
 
@@ -41,7 +73,6 @@ class NotificationSystem {
     if (!this.patientId) return;
 
     try {
-      // Cache prescriptions to avoid repeated calls
       if (!this.prescriptionsCache) {
         this.prescriptionsCache = await store.getPrescriptionsByPatient(this.patientId);
       }
@@ -55,6 +86,15 @@ class NotificationSystem {
 
         if (isTimeInRange(dose.time)) {
           this.alertedDoses.add(doseKey);
+          // Tocar alarme sonoro
+          playAlarm();
+          // Disparar notificação do navegador
+          if ('Notification' in window && Notification.permission === 'granted') {
+            new Notification('💊 Hora do Medicamento!', {
+              body: dose.time,
+              vibrate: [200, 100, 200]
+            });
+          }
           if (this.onAlert) {
             const prescription = this.prescriptionsCache.find(p => p.id === dose.prescriptionId);
             this.onAlert(
@@ -83,9 +123,9 @@ export function showToast(message, type = 'info', duration = 5000) {
     <span>${message}</span>
     <button onclick="this.parentElement.remove()" style="background:none;border:none;cursor:pointer;font-size:1.2rem;color:inherit;display:flex;align-items:center;"><i class='bx bx-x'></i></button>
   `;
-  
+
   container.appendChild(toast);
-  
+
   setTimeout(() => {
     if (toast.parentElement) {
       toast.remove();

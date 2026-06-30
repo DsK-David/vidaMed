@@ -1,0 +1,49 @@
+<%- include('../../layouts/head', { title: 'Minhas Prescrições' }) %>
+<div class="panel">
+  <%- include('../../includes/sidebar-patient', { active: 'prescriptions', user: user }) %>
+  <main class="panel__content">
+    <%- include('../../includes/header', { title: 'Minhas Prescrições', subtitle: 'Todas as suas prescrições', user: user }) %>
+    <div class="panel__body" id="panel-body">
+      <div class="actions-row">
+        <p class="text-sm text-muted"><%= prescriptions.length %> prescrição(ões) no total</p>
+      </div>
+
+      <% if (prescriptions.length === 0) { %>
+        <div class="empty-state">
+          <div class="empty-state__icon"><i class='bx bx-capsule'></i></div>
+          <p class="empty-state__text">Nenhuma prescrição encontrada.</p>
+        </div>
+      <% } else { %>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Medicamento</th>
+              <th>Dosagem</th>
+              <th>Horários</th>
+              <th>Período</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% prescriptions.forEach(function(p) { %>
+              <tr>
+                <td><strong><%= p.medication %></strong></td>
+                <td><%= p.dosage %></td>
+                <td><% p.times.forEach(function(t) { %><span class="time-badge"><%= t %></span> <% }) %></td>
+                <td><%= p.startDate %> – <%= p.endDate %></td>
+                <td>
+                  <% if (p.active) { %>
+                    <span class="badge badge--success">Ativa</span>
+                  <% } else { %>
+                    <span class="badge badge--danger">Inativa</span>
+                  <% } %>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      <% } %>
+    </div>
+  </main>
+</div>
+<%- include('../../layouts/foot') %>

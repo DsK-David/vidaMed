@@ -1,0 +1,46 @@
+<%- include('../../layouts/head', { title: 'Meus Pacientes' }) %>
+<div class="panel">
+  <%- include('../../includes/sidebar', { active: 'patients', user: user }) %>
+  <main class="panel__content">
+    <%- include('../../includes/header', { title: 'Meus Pacientes', subtitle: 'Gerencie seus pacientes cadastrados', user: user }) %>
+    <div class="panel__body" id="panel-body">
+      <div class="actions-row stagger-item" style="--i:0">
+        <p class="text-sm text-muted"><%= patients.length %> paciente(s) cadastrado(s)</p>
+        <div class="actions-row__right">
+          <a href="/doctor/novo-paciente" class="btn btn--primary">+ Novo Paciente</a>
+        </div>
+      </div>
+
+      <% if (patients.length === 0) { %>
+        <div class="empty-state stagger-item" style="--i:1">
+          <div class="empty-state__icon">👥</div>
+          <div class="empty-state__text">Nenhum paciente cadastrado</div>
+        </div>
+      <% } else { %>
+        <div class="stagger-item" style="--i:1">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>E-mail</th>
+                <th>Prescrições Ativas</th>
+                <th>Cadastro</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% patients.forEach(function(p) { %>
+                <tr>
+                  <td><strong><%= p.name %></strong></td>
+                  <td><%= p.email %></td>
+                  <td>—</td>
+                  <td><%= p.createdAt %></td>
+                </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+      <% } %>
+    </div>
+  </main>
+</div>
+<%- include('../../layouts/foot') %>

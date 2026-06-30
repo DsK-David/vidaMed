@@ -1,0 +1,49 @@
+<%- include('../../layouts/head', { title: 'Histórico' }) %>
+<div class="panel">
+  <%- include('../../includes/sidebar-patient', { active: 'history', user: user }) %>
+  <main class="panel__content">
+    <%- include('../../includes/header', { title: 'Histórico de Doses', subtitle: 'Registro de todas as doses', user: user }) %>
+    <div class="panel__body" id="panel-body">
+      <div class="actions-row">
+        <p class="text-sm text-muted"><%= logs.length %> registro(s) de dose</p>
+      </div>
+
+      <% if (logs.length === 0) { %>
+        <div class="empty-state">
+          <div class="empty-state__icon"><i class='bx bx-time-five'></i></div>
+          <p class="empty-state__text">Nenhum registro de dose encontrado.</p>
+        </div>
+      <% } else { %>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Medicamento</th>
+              <th>Horário Programado</th>
+              <th>Tomado em</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% logs.forEach(function(l) { %>
+              <tr>
+                <td><strong><%= l.medication %></strong></td>
+                <td><%= l.scheduledTime %></td>
+                <td><%= l.takenAt || '—' %></td>
+                <td>
+                  <% if (l.status === 'taken') { %>
+                    <span class="badge badge--success">Tomada</span>
+                  <% } else if (l.status === 'missed') { %>
+                    <span class="badge badge--danger">Perdida</span>
+                  <% } else { %>
+                    <span class="badge badge--info">Pendente</span>
+                  <% } %>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      <% } %>
+    </div>
+  </main>
+</div>
+<%- include('../../layouts/foot') %>

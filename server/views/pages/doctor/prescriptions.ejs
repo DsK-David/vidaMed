@@ -1,0 +1,68 @@
+<%- include('../../layouts/head', { title: 'Prescrições' }) %>
+<div class="panel">
+  <%- include('../../includes/sidebar', { active: 'prescriptions', user: user }) %>
+  <main class="panel__content">
+    <%- include('../../includes/header', { title: 'Prescrições', subtitle: 'Todas as prescrições ativas e finalizadas', user: user }) %>
+    <div class="panel__body" id="panel-body">
+      <div class="actions-row stagger-item" style="--i:0">
+        <p class="text-sm text-muted"><%= prescriptions.length %> prescrição(ões) no total</p>
+        <div class="actions-row__right">
+          <a href="/doctor/nova-prescricao" class="btn btn--primary">+ Nova Prescrição</a>
+        </div>
+      </div>
+
+      <% if (prescriptions.length === 0) { %>
+        <div class="empty-state stagger-item" style="--i:1">
+          <div class="empty-state__icon">💊</div>
+          <div class="empty-state__text">Nenhuma prescrição criada</div>
+        </div>
+      <% } else { %>
+        <div class="stagger-item" style="--i:1">
+          <table class="data-table" id="prescriptions-table">
+            <thead>
+              <tr>
+                <th>Medicamento</th>
+                <th>Paciente</th>
+                <th>Dosagem</th>
+                <th>Horários</th>
+                <th>Período</th>
+                <th>Status</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% prescriptions.forEach(function(p) { %>
+                <tr data-prescription-id="<%= p.id %>">
+                  <td><strong><%= p.medication %></strong></td>
+                  <td><%= p.patientName %></td>
+                  <td><%= p.dosage %></td>
+                  <td><% p.times.forEach(function(t) { %><span class="time-badge"><%= t %></span> <% }) %></td>
+                  <td><%= p.startDate %> – <%= p.endDate %></td>
+                  <td>
+                    <% if (p.active) { %>
+                      <span class="badge badge--success">Ativa</span>
+                    <% } else { %>
+                      <span class="badge badge--danger">Inativa</span>
+                    <% } %>
+                  </td>
+                  <td>
+                    <% if (p.active) { %>
+                      <button class="btn btn--ghost btn-deactivate" data-id="<%= p.id %>" title="Desativar"><i class='bx bx-x'></i></button>
+                    <% } else { %>
+                      —
+                    <% } %>
+                  </td>
+                </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+      <% } %>
+    </div>
+  </main>
+</div>
+<script type="module">
+  import { initPrescriptions } from '/js/modules/doctor.js';
+  initPrescriptions();
+</script>
+<%- include('../../layouts/foot') %>

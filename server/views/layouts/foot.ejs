@@ -1,0 +1,11 @@
+  <div id="toast-container" class="toast-container"></div>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js', { updateViaCache: 'none' })
+        .then(reg => console.log('[SW] Registrado:', reg.scope))
+        .catch(err => console.warn('[SW] Falha:', err.message));
+    }
+  </script>
+  <script type="module" src="/js/app.js"></script>
+</body>
+</html>

@@ -31,7 +31,7 @@ export function getCurrentTime() {
   return `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
 }
 
-export function isTimeInRange(time, minutesBefore = 5, minutesAfter = 30) {
+export function isTimeInRange(time, minutesBefore = 0, minutesAfter = 60) {
   const now = new Date();
   const [hours, minutes] = time.split(':').map(Number);
   

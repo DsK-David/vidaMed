@@ -1,0 +1,33 @@
+<%- include('../../layouts/head', { title: 'Novo Paciente' }) %>
+<div class="panel">
+  <%- include('../../includes/sidebar', { active: 'new-patient', user: user }) %>
+  <main class="panel__content">
+    <%- include('../../includes/header', { title: 'Novo Paciente', subtitle: 'Adicione um novo paciente ao sistema', user: user }) %>
+    <div class="panel__body" id="panel-body">
+      <form id="form-patient" class="form-full stagger-item" style="--i:0">
+        <div class="form-full__grid">
+          <div class="floating-input">
+            <input id="patient-name" placeholder=" " required>
+            <label>Nome Completo</label>
+          </div>
+          <div class="floating-input">
+            <input type="email" id="patient-email" placeholder=" " required>
+            <label>E-mail</label>
+          </div>
+          <div class="floating-input">
+            <input type="text" id="patient-password" placeholder=" " required minlength="4">
+            <label>Senha de Acesso</label>
+          </div>
+        </div>
+        <div class="form-full__actions">
+          <button type="submit" class="btn btn--primary btn--lg">Cadastrar Paciente</button>
+        </div>
+      </form>
+    </div>
+  </main>
+</div>
+<script type="module">
+  import { initNewPatient } from '/js/modules/doctor.js';
+  initNewPatient();
+</script>
+<%- include('../../layouts/foot') %>

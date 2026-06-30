@@ -1,0 +1,15 @@
+<header class="app-header">
+  <div class="app-header__left">
+    <div>
+      <h2 class="app-header__title"><%= title %></h2>
+      <p class="text-sm text-muted" id="panel-subtitle"><%= typeof subtitle !== 'undefined' ? subtitle : '' %></p>
+    </div>
+  </div>
+
+  <div class="app-header__actions">
+    <div class="search-wrapper">
+      <input class="form-input" type="search" placeholder="Buscar paciente, prescrição..." aria-label="Buscar">
+    </div>
+    <button class="btn btn--ghost" title="Notificações"><i class='bx bx-bell'></i></button>
+  </div>
+</header>

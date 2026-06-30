@@ -1,173 +1,213 @@
-/* ===== PATIENT PANEL ===== */
+﻿/* ===== PATIENT PANEL (Dark Theme) ===== */
 
-/* Re-use sidebar from doctor.css — patient-specific overrides here */
-
-.patient-panel .sidebar__user-avatar {
-  background-color: var(--color-secondary);
-}
-
-/* --- Section: Patient Overview --- */
-.patient-overview__alerts {
-  margin-bottom: var(--space-6);
-}
-
-.patient-overview__stats {
+/* --- Patient Stats --- */
+.patient-stats {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: var(--space-5);
-  margin-bottom: var(--space-8);
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--ds-space-5);
+  margin-bottom: var(--ds-space-8);
 }
 
-.patient-overview__stat {
-  background-color: white;
-  border-radius: var(--radius-lg);
-  padding: var(--space-5) var(--space-6);
-  border: 1px solid var(--color-gray-200);
+.patient-stat {
+  background: rgba(20, 26, 25, 0.5);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 12px;
+  padding: var(--ds-space-5) var(--ds-space-6);
+  text-align: center;
+  transition: transform var(--ds-duration-normal) var(--ds-ease-out), border-color var(--ds-duration-normal) var(--ds-ease-out);
 }
 
-.patient-overview__stat-value {
-  font-size: var(--font-size-3xl);
+.patient-stat:hover {
+  transform: translateY(-2px);
+  border-color: rgba(45,212,168,0.15);
+}
+
+.patient-stat__value {
+  font-family: var(--ds-font-display);
+  font-size: var(--ds-heading-32);
   font-weight: 800;
-  color: var(--color-primary);
+  color: var(--ds-accent);
+  letter-spacing: -0.03em;
+  line-height: 1.2;
 }
 
-.patient-overview__stat-label {
-  font-size: var(--font-size-xs);
-  color: var(--color-gray-500);
-  margin-top: var(--space-1);
+.patient-stat__label {
+  font-size: var(--ds-label-12);
+  color: rgba(255,255,255,0.4);
+  margin-top: var(--ds-space-1);
   text-transform: uppercase;
   letter-spacing: 0.04em;
   font-weight: 500;
 }
 
-.patient-overview__stat--warning .patient-overview__stat-value {
-  color: #f59e0b;
+.patient-stat--success .patient-stat__value {
+  color: var(--ds-teal);
 }
 
-.patient-overview__stat--success .patient-overview__stat-value {
-  color: #059669;
-}
-
-/* --- Alert Card (Inside Panel) --- */
-.dose-alert-card {
-  background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
-  border-radius: var(--radius-lg);
-  padding: var(--space-5) var(--space-6);
-  color: white;
-  display: flex;
-  align-items: center;
-  gap: var(--space-5);
-  margin-bottom: var(--space-4);
-  animation: pulse-soft 2s ease-in-out infinite;
-}
-
-@keyframes pulse-soft {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.2); }
-  50% { box-shadow: 0 0 0 8px rgba(37, 99, 235, 0); }
-}
-
-.dose-alert-card__icon {
-  font-size: 2rem;
-  flex-shrink: 0;
-}
-
-.dose-alert-card__info {
-  flex: 1;
-}
-
-.dose-alert-card__title {
-  font-weight: 700;
-  font-size: var(--font-size-base);
-  margin-bottom: 2px;
-}
-
-.dose-alert-card__medication {
-  opacity: 0.9;
-  font-size: var(--font-size-sm);
-}
-
-.dose-alert-card__actions {
-  display: flex;
-  gap: var(--space-2);
-}
-
-.dose-alert-card__actions .btn {
-  background: rgba(255, 255, 255, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  color: white;
-  font-size: var(--font-size-xs);
-  padding: var(--space-2) var(--space-3);
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  transition: all var(--transition-fast);
-}
-
-.dose-alert-card__actions .btn:hover {
-  background: rgba(255, 255, 255, 0.35);
-}
-
-.dose-alert-card__actions .btn--confirm {
-  background: rgba(255, 255, 255, 0.95);
-  color: var(--color-primary);
-  font-weight: 600;
-}
-
-.dose-alert-card__actions .btn--confirm:hover {
-  background: white;
+.patient-stat--warning .patient-stat__value {
+  color: var(--ds-warning);
 }
 
 /* --- Prescriptions Grid --- */
 .patient-prescriptions {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: var(--space-5);
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: var(--ds-space-5);
 }
 
-/* --- Dose History Panel --- */
-.dose-history-panel {
-  background-color: white;
-  border-radius: var(--radius-lg);
-  border: 1px solid var(--color-gray-200);
-  overflow: hidden;
+/* --- Prescription Card (Dark) --- */
+.prescription-card {
+  background: rgba(20, 26, 25, 0.5) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border: 1px solid rgba(255,255,255,0.06) !important;
+  box-shadow: none !important;
 }
 
-.dose-history-panel__header {
-  padding: var(--space-5) var(--space-6);
-  border-bottom: 1px solid var(--color-gray-100);
+.prescription-card:hover {
+  border-color: rgba(45,212,168,0.12) !important;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.2) !important;
+}
+
+.prescription-card .card__title {
+  color: rgba(255,255,255,0.95);
+}
+
+.prescription-card .badge--success {
+  background: rgba(45,212,168,0.08);
+  color: var(--ds-accent);
+}
+
+.prescription-card__dosage {
+  font-size: var(--ds-copy-14);
+  font-weight: 600;
+  color: var(--ds-accent);
+  margin-bottom: var(--ds-space-4);
+  padding-bottom: var(--ds-space-4);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+.prescription-card__info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-space-2);
+}
+
+.prescription-card__info-item {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: var(--ds-space-2);
+  font-size: var(--ds-copy-13);
+  color: rgba(255,255,255,0.6);
 }
 
-.dose-history-panel__header h3 {
-  font-size: var(--font-size-base);
-  font-weight: 600;
+.prescription-card__info-item i {
+  font-size: 16px;
+  color: rgba(255,255,255,0.25);
+  flex-shrink: 0;
 }
 
-.dose-history-panel__body {
-  padding: var(--space-4) var(--space-6);
+/* --- Dose Buttons Area --- */
+.prescription-card__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--ds-space-2);
+  min-height: 40px;
 }
 
-.dose-history-panel__empty {
-  padding: var(--space-8);
-  text-align: center;
-  color: var(--color-gray-400);
-  font-size: var(--font-size-sm);
+/* --- Dose Button (Outline on dark) --- */
+.btn-dose {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ds-space-1);
+  height: 36px;
+  padding: 0 14px;
+  border: 1.5px solid rgba(45,212,168,0.3);
+  border-radius: var(--ds-radius-md);
+  background-color: transparent;
+  color: var(--ds-accent);
+  font-size: var(--ds-button-12);
+  font-weight: 500;
+  cursor: pointer;
+  transition: background var(--ds-duration-fast) var(--ds-ease-out), border-color var(--ds-duration-fast) var(--ds-ease-out);
+}
+
+.btn-dose:hover {
+  background: rgba(45,212,168,0.08);
+  border-color: var(--ds-accent);
+}
+
+.btn-dose:disabled {
+  background: rgba(45,212,168,0.08);
+  border-color: rgba(45,212,168,0.15);
+  color: rgba(255,255,255,0.35);
+  cursor: default;
+  pointer-events: none;
+}
+
+.btn-dose.pulse {
+  animation: pulseGlow 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(45,212,168,0.3); }
+  50% { box-shadow: 0 0 0 12px rgba(45,212,168,0); }
+}
+
+/* --- Sidebar patient avatar override --- */
+.sidebar__user-avatar {
+  background: linear-gradient(135deg, var(--ds-teal), rgba(45,212,168,0.3));
+}
+
+/* --- Alert Banner --- */
+.alert-banner {
+  display: flex;
+  align-items: center;
+  gap: var(--ds-space-3);
+  padding: var(--ds-space-4) var(--ds-space-5);
+  margin-bottom: var(--ds-space-6);
+  border-radius: var(--ds-radius-md);
+  background: rgba(45,212,168,0.06);
+  border: 1px solid rgba(45,212,168,0.15);
+  color: rgba(255,255,255,0.8);
+  font-size: var(--ds-copy-14);
+}
+
+.alert-banner i {
+  font-size: 20px;
+  color: var(--ds-accent);
+  flex-shrink: 0;
+}
+
+.alert-banner strong {
+  color: var(--ds-accent);
 }
 
 /* --- Responsive --- */
 @media (max-width: 768px) {
-  .dose-alert-card {
-    flex-direction: column;
-    text-align: center;
-  }
-
-  .dose-alert-card__actions {
-    width: 100%;
-    justify-content: center;
+  .patient-stats {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--ds-space-4);
   }
 
   .patient-prescriptions {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .patient-stats {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--ds-space-3);
+  }
+
+  .patient-stat {
+    padding: var(--ds-space-4);
+  }
+
+  .patient-stat__value {
+    font-size: var(--ds-heading-24);
   }
 }

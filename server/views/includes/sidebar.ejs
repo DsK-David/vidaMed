@@ -1,0 +1,50 @@
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar__top">
+    <div class="sidebar__brand">
+      <i class='bx bx-plus-medical sidebar__brand-icon animate-float' aria-hidden="true"></i>
+      <h1 class="sidebar__brand-text animate-fade-up">Med<span>Control</span></h1>
+    </div>
+    <button class="sidebar__toggle" id="btn-toggle-sidebar" title="Recolher menu">
+      <i class='bx bx-chevrons-left'></i>
+    </button>
+  </div>
+
+  <p class="sidebar__section-label">Menu</p>
+  <nav class="sidebar__nav">
+    <a href="/doctor" class="sidebar__link <%= active === 'overview' ? 'active' : '' %>" data-section="overview">
+      <i class='bx bx-grid-alt'></i>
+      <span>Visão Geral</span>
+    </a>
+    <a href="/doctor/pacientes" class="sidebar__link <%= active === 'patients' ? 'active' : '' %>" data-section="patients">
+      <i class='bx bx-group'></i>
+      <span>Meus Pacientes</span>
+    </a>
+    <a href="/doctor/prescricoes" class="sidebar__link <%= active === 'prescriptions' ? 'active' : '' %>" data-section="prescriptions">
+      <i class='bx bx-capsule'></i>
+      <span>Prescrições</span>
+    </a>
+  </nav>
+
+  <p class="sidebar__section-label">Ações</p>
+  <nav class="sidebar__nav">
+    <a href="/doctor/nova-prescricao" class="sidebar__link <%= active === 'new-prescription' ? 'active' : '' %>" data-section="new-prescription">
+      <i class='bx bx-list-plus'></i>
+      <span>Nova Prescrição</span>
+    </a>
+    <a href="/doctor/novo-paciente" class="sidebar__link <%= active === 'new-patient' ? 'active' : '' %>" data-section="new-patient">
+      <i class='bx bx-user-plus'></i>
+      <span>Novo Paciente</span>
+    </a>
+  </nav>
+
+  <div class="sidebar__footer">
+    <div class="sidebar__user">
+      <div class="sidebar__user-avatar"><%= user.name.split(' ').map(w => w[0]).slice(0,2).join('').toUpperCase() %></div>
+      <div class="sidebar__user-info">
+        <span class="sidebar__user-name"><%= user.name %></span>
+        <span class="sidebar__user-role">Médico(a)</span>
+      </div>
+    </div>
+    <a href="/logout" class="btn btn--ghost" title="Sair"><i class='bx bx-log-out'></i></a>
+  </div>
+</aside>
