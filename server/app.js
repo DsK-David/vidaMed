@@ -77,9 +77,18 @@ app.use(async (req, res, next) => {
     await ensureInit();
     next();
   } catch (err) {
+    const isVercel = !!process.env.VERCEL;
     console.error('[FATAL] Erro na inicialização:', err.message);
     console.error('[FATAL] Stack:', err.stack);
-    res.status(500).send('Erro: ' + err.message);
+    if (isVercel && err.message.includes('banco de dados')) {
+      res.status(500).send(
+        'Erro de conexão com o banco de dados. ' +
+        'Verifique se as variáveis de ambiente DB_HOST, DB_USER, DB_PASSWORD, DB_NAME ' +
+        'estão configuradas no painel da Vercel (Project Settings > Environment Variables).'
+      );
+    } else {
+      res.status(500).send('Erro: ' + err.message);
+    }
   }
 });
 
