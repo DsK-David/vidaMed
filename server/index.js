@@ -33,8 +33,8 @@ app.use(cookieParser());
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-// Static files (root project)
-app.use(express.static(path.join(__dirname, '..')));
+// Static files (root project) — não servir index.html para não conflitar com rota /
+app.use(express.static(path.join(__dirname, '..'), { index: false }));
 
 // ===== ROUTES =====
 app.use(require('./routes/auth.routes'));
