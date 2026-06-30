@@ -44,7 +44,7 @@ async function getDashboard(req, res) {
     });
   } catch (err) {
     console.error('[Patient] Erro ao carregar dashboard:', err.message);
-    res.status(500).send('Erro interno');
+    res.status(500).send('Erro: ' + err.message);
   }
 }
 
@@ -72,7 +72,7 @@ async function getPrescriptions(req, res) {
     });
   } catch (err) {
     console.error('[Patient] Erro ao carregar prescrições:', err.message);
-    res.status(500).send('Erro interno');
+    res.status(500).send('Erro: ' + err.message);
   }
 }
 
@@ -107,7 +107,7 @@ async function getHistory(req, res) {
     });
   } catch (err) {
     console.error('[Patient] Erro ao carregar histórico:', err.message);
-    res.status(500).send('Erro interno');
+    res.status(500).send('Erro: ' + err.message);
   }
 }
 

@@ -25,7 +25,7 @@ router.get('/api/auth/me', apiAuth, async (req, res) => {
     if (!user) return res.status(404).json({ error: 'Usuário não encontrado' });
     res.json({ id: user.id, name: user.name, email: user.email, role: user.role, doctorId: user.doctor_id });
   } catch (err) {
-    res.status(500).json({ error: 'Erro interno do servidor' });
+    res.status(500).json({ error: err.message || 'Erro interno' });
   }
 });
 

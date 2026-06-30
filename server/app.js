@@ -65,7 +65,7 @@ app.use(async (req, res, next) => {
   } catch (err) {
     console.error('[FATAL] Erro na inicialização:', err.message);
     console.error('[FATAL] Stack:', err.stack);
-    res.status(500).send('Erro interno do servidor: ' + err.message);
+    res.status(500).send('Erro: ' + err.message);
   }
 });
 
@@ -88,7 +88,7 @@ app.post('/api/push/subscribe', require('./middleware/auth.middleware').apiAuth,
     await push.subscribe(req.user.id, subscription);
     res.json({ success: true });
   } catch (err) {
-    res.status(500).json({ error: 'Erro interno do servidor' });
+    res.status(500).json({ error: err.message || 'Erro interno' });
   }
 });
 
@@ -98,7 +98,7 @@ app.delete('/api/push/unsubscribe', require('./middleware/auth.middleware').apiA
     await push.unsubscribe(endpoint);
     res.json({ success: true });
   } catch (err) {
-    res.status(500).json({ error: 'Erro interno do servidor' });
+    res.status(500).json({ error: err.message || 'Erro interno' });
   }
 });
 

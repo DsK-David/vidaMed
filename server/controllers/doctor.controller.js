@@ -45,7 +45,7 @@ async function getOverview(req, res) {
     });
   } catch (err) {
     console.error('[Doctor] Erro ao carregar overview:', err.message);
-    res.status(500).send('Erro interno');
+    res.status(500).send('Erro: ' + err.message);
   }
 }
 
@@ -71,7 +71,7 @@ async function getPatients(req, res) {
     });
   } catch (err) {
     console.error('[Doctor] Erro ao carregar pacientes:', err.message);
-    res.status(500).send('Erro interno');
+    res.status(500).send('Erro: ' + err.message);
   }
 }
 
@@ -105,7 +105,7 @@ async function getPrescriptions(req, res) {
     });
   } catch (err) {
     console.error('[Doctor] Erro ao carregar prescrições:', err.message);
-    res.status(500).send('Erro interno');
+    res.status(500).send('Erro: ' + err.message);
   }
 }
 
@@ -132,7 +132,7 @@ async function getNewPrescription(req, res) {
     });
   } catch (err) {
     console.error('[Doctor] Erro ao carregar nova prescrição:', err.message);
-    res.status(500).send('Erro interno');
+    res.status(500).send('Erro: ' + err.message);
   }
 }
 

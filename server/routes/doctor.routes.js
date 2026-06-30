@@ -28,7 +28,7 @@ router.get('/api/patients', apiAuth, async (req, res) => {
       doctorId: p.doctor_id, createdAt: p.created_at
     })));
   } catch (err) {
-    res.status(500).json({ error: 'Erro interno do servidor' });
+    res.status(500).json({ error: err.message || 'Erro interno' });
   }
 });
 
@@ -51,7 +51,7 @@ router.post('/api/patients', apiAuth, async (req, res) => {
 
     res.status(201).json({ id, name, email, role: 'patient', doctorId: req.user.id, createdAt: new Date().toISOString() });
   } catch (err) {
-    res.status(500).json({ error: 'Erro interno do servidor' });
+    res.status(500).json({ error: err.message || 'Erro interno' });
   }
 });
 
@@ -75,7 +75,7 @@ router.get('/api/prescriptions', apiAuth, async (req, res) => {
       active: !!r.active, createdAt: r.created_at
     })));
   } catch (err) {
-    res.status(500).json({ error: 'Erro interno do servidor' });
+    res.status(500).json({ error: err.message || 'Erro interno' });
   }
 });
 
@@ -112,7 +112,7 @@ router.post('/api/prescriptions', apiAuth, async (req, res) => {
 
     res.status(201).json(prescription);
   } catch (err) {
-    res.status(500).json({ error: 'Erro interno do servidor' });
+    res.status(500).json({ error: err.message || 'Erro interno' });
   }
 });
 
@@ -125,7 +125,7 @@ router.patch('/api/prescriptions/:id', apiAuth, async (req, res) => {
       .update({ active: active ? 1 : 0 });
     res.json({ success: true });
   } catch (err) {
-    res.status(500).json({ error: 'Erro interno do servidor' });
+    res.status(500).json({ error: err.message || 'Erro interno' });
   }
 });
 
@@ -137,7 +137,7 @@ router.get('/api/medications', apiAuth, async (req, res) => {
     const meds = [...new Set(rows.map(r => r.medication).filter(Boolean))].sort();
     res.json(meds);
   } catch (err) {
-    res.status(500).json({ error: 'Erro interno do servidor' });
+    res.status(500).json({ error: err.message || 'Erro interno' });
   }
 });
 

@@ -30,7 +30,7 @@ router.get('/api/doses', apiAuth, async (req, res) => {
       status: r.status, createdAt: r.created_at
     })));
   } catch (err) {
-    res.status(500).json({ error: 'Erro interno do servidor' });
+    res.status(500).json({ error: err.message || 'Erro interno' });
   }
 });
 
@@ -47,7 +47,7 @@ router.post('/api/doses', apiAuth, async (req, res) => {
 
     res.status(201).json({ id, prescriptionId, patientId, scheduledTime, time, takenAt: null, status: 'pending' });
   } catch (err) {
-    res.status(500).json({ error: 'Erro interno do servidor' });
+    res.status(500).json({ error: err.message || 'Erro interno' });
   }
 });
 
@@ -60,7 +60,7 @@ router.patch('/api/doses/:id', apiAuth, async (req, res) => {
     await db('dose_logs').where('id', req.params.id).update(update);
     res.json({ success: true });
   } catch (err) {
-    res.status(500).json({ error: 'Erro interno do servidor' });
+    res.status(500).json({ error: err.message || 'Erro interno' });
   }
 });
 
@@ -95,7 +95,7 @@ router.post('/api/doses/mark-taken', async (req, res) => {
 
     res.json({ success: true });
   } catch (err) {
-    res.status(500).json({ error: 'Erro interno do servidor' });
+    res.status(500).json({ error: err.message || 'Erro interno' });
   }
 });
 

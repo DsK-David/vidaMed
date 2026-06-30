@@ -58,7 +58,7 @@ async function login(req, res) {
       user: { id: user.id, name: user.name, email: user.email, role: user.role, doctorId: user.doctor_id }
     });
   } catch (err) {
-    res.status(500).json({ error: 'Erro interno do servidor' });
+    res.status(500).json({ error: err.message || 'Erro interno' });
   }
 }
 
@@ -100,7 +100,7 @@ async function register(req, res) {
       user: { id, name, email, role, doctorId: null }
     });
   } catch (err) {
-    res.status(500).json({ error: 'Erro interno do servidor' });
+    res.status(500).json({ error: err.message || 'Erro interno' });
   }
 }
 
