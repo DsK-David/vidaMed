@@ -5,7 +5,7 @@ const { getDb } = require('../db');
 
 const JWT_SECRET = process.env.JWT_SECRET || crypto.randomBytes(32).toString('hex');
 
-function renderLogin(req, res) {
+async function renderLogin(req, res) {
   if (req.cookies?.token) {
     try {
       const payload = jwt.verify(req.cookies.token, JWT_SECRET);
@@ -13,7 +13,25 @@ function renderLogin(req, res) {
       if (payload.role === 'patient') return res.redirect('/paciente');
     } catch {}
   }
-  res.render('pages/login');
+  try {
+    const db = getDb();
+    const [doctorCount, patientCount, prescriptionCount] = await Promise.all([
+      db('users').where('role', 'doctor').count('* as count').first(),
+      db('users').where('role', 'patient').count('* as count').first(),
+      db('prescriptions').count('* as count').first()
+    ]);
+    res.render('pages/login', {
+      metrics: {
+        doctors: doctorCount?.count || 0,
+        patients: patientCount?.count || 0,
+        prescriptions: prescriptionCount?.count || 0
+      }
+    });
+  } catch {
+    res.render('pages/login', {
+      metrics: { doctors: 0, patients: 0, prescriptions: 0 }
+    });
+  }
 }
 
 function renderRegister(req, res) {
