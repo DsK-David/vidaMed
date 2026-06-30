@@ -33,19 +33,19 @@
             <tbody>
               <% prescriptions.forEach(function(p) { %>
                 <tr data-prescription-id="<%= p.id %>">
-                  <td><strong><%= p.medication %></strong></td>
-                  <td><%= p.patientName %></td>
-                  <td><%= p.dosage %></td>
-                  <td><% p.times.forEach(function(t) { %><span class="time-badge"><%= t %></span> <% }) %></td>
-                  <td><%= p.startDate %> – <%= p.endDate %></td>
-                  <td>
+                  <td data-label="Medicamento"><strong><%= p.medication %></strong></td>
+                  <td data-label="Paciente"><%= p.patientName %></td>
+                  <td data-label="Dosagem"><%= p.dosage %></td>
+                  <td data-label="Horários"><% p.times.forEach(function(t) { %><span class="time-badge"><%= t %></span> <% }) %></td>
+                  <td data-label="Período"><%= p.startDate %> – <%= p.endDate %></td>
+                  <td data-label="Status">
                     <% if (p.active) { %>
                       <span class="badge badge--success">Ativa</span>
                     <% } else { %>
                       <span class="badge badge--danger">Inativa</span>
                     <% } %>
                   </td>
-                  <td>
+                  <td data-label="Ações">
                     <% if (p.active) { %>
                       <button class="btn btn--ghost btn-deactivate" data-id="<%= p.id %>" title="Desativar"><i class='bx bx-x'></i></button>
                     <% } else { %>

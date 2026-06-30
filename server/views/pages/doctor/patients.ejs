@@ -30,10 +30,10 @@
             <tbody>
               <% patients.forEach(function(p) { %>
                 <tr>
-                  <td><strong><%= p.name %></strong></td>
-                  <td><%= p.email %></td>
-                  <td>—</td>
-                  <td><%= p.createdAt %></td>
+                  <td data-label="Nome"><strong><%= p.name %></strong></td>
+                  <td data-label="E-mail"><%= p.email %></td>
+                  <td data-label="Prescrições Ativas">—</td>
+                  <td data-label="Cadastro"><%= p.createdAt %></td>
                 </tr>
               <% }) %>
             </tbody>

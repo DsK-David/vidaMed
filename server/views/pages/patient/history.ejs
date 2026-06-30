@@ -26,10 +26,10 @@
           <tbody>
             <% logs.forEach(function(l) { %>
               <tr>
-                <td><strong><%= l.medication %></strong></td>
-                <td><%= l.scheduledTime %></td>
-                <td><%= l.takenAt || '—' %></td>
-                <td>
+                <td data-label="Medicamento"><strong><%= l.medication %></strong></td>
+                <td data-label="Horário Programado"><%= l.scheduledTime %></td>
+                <td data-label="Tomado em"><%= l.takenAt || '—' %></td>
+                <td data-label="Status">
                   <% if (l.status === 'taken') { %>
                     <span class="badge badge--success">Tomada</span>
                   <% } else if (l.status === 'missed') { %>

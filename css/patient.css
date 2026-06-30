@@ -211,3 +211,57 @@
     font-size: var(--ds-heading-24);
   }
 }
+
+/* ===== Responsive Data Tables (Patient) ===== */
+@media (max-width: 767px) {
+  .patient-stats {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+
+  .patient-stat {
+    padding: 12px 8px;
+  }
+
+  .patient-stat__value {
+    font-size: 22px;
+  }
+
+  .patient-stat__label {
+    font-size: 10px;
+  }
+
+  .patient-prescriptions {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .prescription-card {
+    padding: 16px !important;
+  }
+
+  .prescription-card__dosage {
+    font-size: 13px;
+    margin-bottom: 12px;
+    padding-bottom: 12px;
+  }
+
+  .prescription-card__info-item {
+    font-size: 12px;
+  }
+
+  .btn-dose {
+    height: 32px;
+    padding: 0 10px;
+    font-size: 11px;
+  }
+
+  .alert-banner {
+    padding: 10px 12px;
+    font-size: 13px;
+    flex-wrap: wrap;
+  }
+}
+
+

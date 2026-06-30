@@ -27,11 +27,11 @@
           <tbody>
             <% prescriptions.forEach(function(p) { %>
               <tr>
-                <td><strong><%= p.medication %></strong></td>
-                <td><%= p.dosage %></td>
-                <td><% p.times.forEach(function(t) { %><span class="time-badge"><%= t %></span> <% }) %></td>
-                <td><%= p.startDate %> – <%= p.endDate %></td>
-                <td>
+                <td data-label="Medicamento"><strong><%= p.medication %></strong></td>
+                <td data-label="Dosagem"><%= p.dosage %></td>
+                <td data-label="Horários"><% p.times.forEach(function(t) { %><span class="time-badge"><%= t %></span> <% }) %></td>
+                <td data-label="Período"><%= p.startDate %> – <%= p.endDate %></td>
+                <td data-label="Status">
                   <% if (p.active) { %>
                     <span class="badge badge--success">Ativa</span>
                   <% } else { %>

@@ -76,10 +76,10 @@
             <tbody>
               <% recentPrescriptions.forEach(function(p) { %>
                 <tr>
-                  <td><%= p.patientName %></td>
-                  <td><strong><%= p.medication %></strong></td>
-                  <td><%= p.dosage %></td>
-                  <td><%= p.startDate %> – <%= p.endDate %></td>
+                  <td data-label="Paciente"><%= p.patientName %></td>
+                  <td data-label="Medicamento"><strong><%= p.medication %></strong></td>
+                  <td data-label="Dosagem"><%= p.dosage %></td>
+                  <td data-label="Período"><%= p.startDate %> – <%= p.endDate %></td>
                 </tr>
               <% }) %>
             </tbody>

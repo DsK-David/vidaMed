@@ -1162,3 +1162,349 @@
     padding: var(--ds-space-5);
   }
 }
+
+/* --- Desktop defaults for mobile-only elements --- */
+.sidebar-hamburger,
+.sidebar__close {
+  display: none;
+}
+
+.sidebar-overlay {
+  display: none;
+}
+
+/* ===== MOBILE OVERRIDES ===== */
+
+/* --- Sidebar Drawer (Mobile) --- */
+@media (max-width: 767px) {
+  .panel {
+    grid-template-columns: 1fr;
+    height: 100dvh;
+  }
+
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: -280px;
+    width: 280px;
+    height: 100dvh;
+    z-index: 1000;
+    transition: left 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;
+  }
+
+  .sidebar--open {
+    left: 0;
+  }
+
+  .sidebar__close {
+    display: flex;
+    background: transparent;
+    border: none;
+    color: rgba(255,255,255,0.6);
+    font-size: 1.3rem;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 8px;
+  }
+
+  .sidebar__close:hover {
+    color: white;
+    background: rgba(255,255,255,0.06);
+  }
+
+  .sidebar__toggle {
+    display: none;
+  }
+
+  .sidebar__top {
+    padding: 0 12px 0 16px;
+  }
+
+  .sidebar-overlay {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 999;
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(4px);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+  }
+
+  .sidebar-overlay--visible {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .sidebar-hamburger {
+    display: flex;
+    background: transparent;
+    border: none;
+    color: rgba(255,255,255,0.7);
+    font-size: 1.4rem;
+    cursor: pointer;
+    padding: 4px;
+    margin-right: 4px;
+    border-radius: 8px;
+  }
+
+  .sidebar-hamburger:hover {
+    color: white;
+    background: rgba(255,255,255,0.06);
+  }
+
+  .app-header {
+    padding: 8px 12px;
+    height: 48px;
+    gap: 8px;
+  }
+
+  .app-header__left {
+    gap: 4px;
+    min-width: 0;
+  }
+
+  .app-header__title {
+    font-size: 15px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .app-header__left .text-muted {
+    display: none;
+  }
+
+  .app-header__actions {
+    gap: 4px;
+  }
+
+  .app-header__actions .search-wrapper {
+    display: none;
+  }
+
+  .panel__body {
+    padding: 12px;
+  }
+
+  .overview__stats {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+
+  .overview__stat {
+    padding: 12px;
+    gap: 10px;
+  }
+
+  .overview__stat-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+  }
+
+  .overview__stat-value {
+    font-size: 20px;
+  }
+
+  .action-cards {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+
+  .action-card {
+    flex-direction: row;
+    align-items: center;
+    padding: 12px;
+  }
+
+  .action-card__icon {
+    width: 36px;
+    height: 36px;
+    font-size: 1rem;
+  }
+
+  .overview__recent {
+    padding: 16px;
+  }
+
+  .overview__recent h3 {
+    font-size: 13px;
+  }
+
+  .empty-state {
+    padding: 48px 16px;
+  }
+
+  .empty-state__icon {
+    font-size: 2.5rem;
+  }
+}
+
+/* --- Responsive Data Tables --- */
+@media (max-width: 767px) {
+  .data-table thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    border: 0;
+  }
+
+  .data-table,
+  .data-table tbody,
+  .data-table tr,
+  .data-table td {
+    display: block;
+  }
+
+  .data-table tr {
+    margin-bottom: 12px;
+    background: rgba(20, 26, 25, 0.5);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 12px;
+    padding: 12px 16px;
+  }
+
+  .data-table td {
+    padding: 4px 0;
+    border: none;
+    font-size: 13px;
+    text-align: right;
+    color: rgba(255,255,255,0.7);
+  }
+
+  .data-table td:not(:last-child) {
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    margin-bottom: 4px;
+  }
+
+  .data-table td::before {
+    content: attr(data-label);
+    float: left;
+    font-weight: 600;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: rgba(255,255,255,0.35);
+  }
+
+  .data-table td strong {
+    color: rgba(255,255,255,0.95);
+  }
+
+  .data-table .btn-deactivate {
+    height: 32px;
+    padding: 0 10px;
+  }
+}
+
+/* --- Actions row mobile --- */
+@media (max-width: 480px) {
+  .actions-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+
+  .actions-row__right {
+    width: 100%;
+  }
+
+  .actions-row__right .btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* --- Form mobile --- */
+@media (max-width: 767px) {
+  .form-full {
+    padding: 16px;
+  }
+
+  .form-full__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .form-full__span-2 {
+    grid-column: span 1;
+  }
+
+  .presc-form {
+    max-width: 100%;
+  }
+
+  .presc-form__row {
+    flex-direction: column;
+  }
+
+  .presc-form__row--dates {
+    flex-direction: column;
+  }
+
+  .presc-form__time-input {
+    flex: 1 !important;
+    width: 100%;
+  }
+
+  .presc-form__section {
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+  }
+
+  .floating-input[style*="flex:0 0 200px"] {
+    flex: 1 !important;
+    width: 100%;
+  }
+
+  .combobox__input {
+    height: 48px;
+    font-size: 13px;
+  }
+
+  .combobox__label {
+    font-size: 13px;
+  }
+
+  .combobox__input:focus ~ .combobox__label,
+  .combobox__input:not(:placeholder-shown) ~ .combobox__label {
+    font-size: 10px;
+    top: 10px;
+  }
+
+  .combobox__dropdown {
+    max-height: 180px;
+  }
+
+  .floating-input input {
+    height: 48px;
+    font-size: 13px;
+  }
+
+  .floating-input textarea {
+    min-height: 80px;
+  }
+}
+
+/* --- New Patient form mobile --- */
+@media (max-width: 480px) {
+  .presc-form__actions .btn,
+  .form-full__actions .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .presc-form__time-add {
+    flex: 1;
+  }
+}
