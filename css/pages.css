@@ -477,16 +477,17 @@
   text-align: center;
 }
 
-/* --- Responsive --- */
+/* ===== RESPONSIVE ===== */
 @media (max-width: 968px) {
   .login-page {
     grid-template-columns: 1fr;
     height: auto;
-    min-height: 100vh;
+    min-height: 100dvh;
+    overflow-y: auto;
   }
 
   .login-hero {
-    padding: 48px 24px 24px;
+    padding: 40px 24px 16px;
     justify-content: center;
   }
 
@@ -494,76 +495,174 @@
     max-width: 100%;
   }
 
+  .login-hero__brand {
+    margin-bottom: 20px;
+  }
+
+  .login-hero__brand h1 {
+    font-size: 30px;
+  }
+
+  .login-hero__description {
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+
   .login-hero__metrics {
-    margin-bottom: var(--ds-space-6);
+    margin-bottom: 20px;
+    padding: 16px 0;
+    gap: 8px;
+  }
+
+  .login-hero__metric-value {
+    font-size: 24px;
+  }
+
+  .login-hero__features {
+    display: none;
   }
 
   .login-form-section {
-    padding: 24px;
+    padding: 0 24px 40px;
     justify-content: center;
   }
 
   .login-form-card {
     max-width: 100%;
+    padding: 24px;
     backdrop-filter: blur(12px);
+  }
+
+  .login-form__demo {
+    padding: 12px;
+  }
+
+  .demo-credentials__item {
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+
+  .demo-credentials__item code {
+    font-size: 10px;
+    word-break: break-all;
+  }
+
+  .login-bg__orb--1 {
+    width: 300px; height: 300px;
+  }
+
+  .login-bg__orb--2 {
+    width: 200px; height: 200px;
+  }
+
+  .login-bg__orb--3 {
+    display: none;
   }
 }
 
 @media (max-width: 480px) {
   .login-hero {
-    padding: 32px 20px 20px;
+    padding: 28px 16px 12px;
   }
 
   .login-hero__brand h1 {
-    font-size: 28px;
+    font-size: 26px;
   }
 
-  .login-hero__metrics {
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--ds-space-2);
+  .login-hero__brand-icon {
+    width: 36px;
+    height: 36px;
+    font-size: 14px;
   }
 
-  .login-hero__metric-value {
-    font-size: 22px;
-  }
-
-  .login-form-section {
-    padding: 16px;
-  }
-
-  .login-form-card {
-    padding: var(--ds-space-6);
-  }
-}
-
-/* ===== RESPONSIVE ===== */
-@media (max-width: 968px) {
-  .login-page {
-    grid-template-columns: 1fr;
-    height: auto;
-    min-height: 100vh;
-    overflow: visible;
-  }
-
-  .login-hero {
-    padding: var(--ds-space-8) var(--ds-space-6);
-    min-height: auto;
-  }
-
-  .login-hero__metrics {
-    margin-top: var(--ds-space-6);
-    padding-top: var(--ds-space-6);
+  .login-hero__tagline {
+    font-size: 11px;
   }
 
   .login-hero__description {
-    font-size: var(--ds-copy-14);
+    font-size: 13px;
+    margin-bottom: 16px;
+  }
+
+  .login-hero__metrics {
+    padding: 12px 0;
+    margin-bottom: 0;
+    gap: 4px;
+  }
+
+  .login-hero__metric-value {
+    font-size: 20px;
+  }
+
+  .login-hero__metric-label {
+    font-size: 10px;
   }
 
   .login-form-section {
-    padding: var(--ds-space-8) var(--ds-space-6);
+    padding: 0 16px 32px;
+  }
+
+  .login-form-card {
+    padding: 20px;
+    border-radius: 12px;
+  }
+
+  .login-form__header h2 {
+    font-size: 20px;
+  }
+
+  .login-form__header p {
+    font-size: 13px;
+  }
+
+  .floating-input input {
+    height: 48px;
+    font-size: 13px;
+    padding: 20px 14px 4px;
+  }
+
+  .floating-input label {
+    font-size: 13px;
+    left: 14px;
+  }
+
+  .floating-input input:focus ~ label,
+  .floating-input input:not(:placeholder-shown) ~ label {
+    font-size: 10px;
+    top: 10px;
+  }
+
+  .login-btn {
+    height: 44px;
+    font-size: 13px;
+  }
+
+  .login-form__footer {
+    font-size: 12px;
+    margin-top: 20px;
+    padding-top: 20px;
+  }
+
+  .login-form__demo > p {
+    font-size: 11px;
+  }
+
+  .demo-credentials__item {
+    font-size: 11px;
+  }
+
+  .login-bg__orb--1 {
+    width: 200px; height: 200px;
+    filter: blur(60px);
+  }
+
+  .login-bg__orb--2 {
+    width: 150px; height: 150px;
+    filter: blur(60px);
   }
 }
 
+/* ===== GENERAL RESPONSIVE (shared across pages) ===== */
 @media (max-width: 768px) {
   .container {
     padding: 0 var(--ds-space-4);
@@ -581,15 +680,6 @@
     width: 95%;
     padding: var(--ds-space-6);
     border-radius: var(--ds-radius-md);
-  }
-
-  .login-hero__metrics {
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--ds-space-2);
-  }
-
-  .login-hero__metric-value {
-    font-size: var(--ds-heading-16);
   }
 
   .medication-alert {
