@@ -13,15 +13,25 @@ function init() {
       port: parseInt(process.env.DB_PORT || '3306'),
       user: process.env.DB_USER || 'root',
       password: process.env.DB_PASSWORD || '',
-      database: process.env.DB_NAME || 'medcontrol'
+      database: process.env.DB_NAME || 'medcontrol',
+      connectTimeout: 10000
     },
-    pool: { min: 0, max: 10 }
+    pool: { min: 0, max: 5 },
+    acquireConnectionTimeout: 10000
   });
 
   return db;
 }
 
 async function runMigrations() {
+  // Testar conexão antes das migrations
+  try {
+    await db.raw('SELECT 1');
+    console.log('[DB] Conexão OK');
+  } catch (err) {
+    console.error('[DB] Falha na conexão:', err.message);
+    throw new Error('Falha ao conectar ao banco de dados: ' + err.message);
+  }
   if (!(await db.schema.hasTable('users'))) {
     await db.schema.createTable('users', t => {
       t.string('id', 36).primary();

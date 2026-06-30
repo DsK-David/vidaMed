@@ -1,4 +1,7 @@
 // ===== EXPRESS APP CONFIG =====
+console.log('[App] __dirname:', __dirname);
+console.log('[App] cwd:', process.cwd());
+
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
@@ -61,7 +64,8 @@ app.use(async (req, res, next) => {
     next();
   } catch (err) {
     console.error('[FATAL] Erro na inicialização:', err.message);
-    res.status(500).send('Erro interno do servidor');
+    console.error('[FATAL] Stack:', err.stack);
+    res.status(500).send('Erro interno do servidor: ' + err.message);
   }
 });
 
