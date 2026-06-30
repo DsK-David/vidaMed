@@ -1,15 +1,29 @@
 // ===== EXPRESS APP CONFIG =====
-console.log('[App] __dirname:', __dirname);
-console.log('[App] cwd:', process.cwd());
-
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const fs = require('fs');
 
+// === Detectar raiz do projeto (Vercel vs local) ===
+function findRoot() {
+  const candidates = [process.cwd(), path.resolve(__dirname, '..')];
+  for (const dir of candidates) {
+    try {
+      if (fs.statSync(path.join(dir, 'css', 'global.css')).isFile()) {
+        console.log('[App] Raiz encontrada:', dir);
+        return dir;
+      }
+    } catch {}
+  }
+  console.warn('[App] Não encontrou css/global.css, usando fallback');
+  return path.resolve(__dirname, '..');
+}
+const PROJECT_ROOT = findRoot();
+const SERVER_DIR = path.join(PROJECT_ROOT, 'server');
+
 // Carregar .env se existir (local dev)
-const envPath = path.join(__dirname, '.env');
+const envPath = path.join(SERVER_DIR, '.env');
 if (fs.existsSync(envPath)) {
   fs.readFileSync(envPath, 'utf-8').split('\n').forEach(line => {
     const trimmed = line.trim();
@@ -52,10 +66,10 @@ app.use(cookieParser());
 
 // View engine
 app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(PROJECT_ROOT, 'server', 'views'));
 
-// Static files (root project)
-app.use(express.static(path.join(__dirname, '..'), { index: false }));
+// Static files (raiz do projeto: css/, js/, sw.js, etc.)
+app.use(express.static(PROJECT_ROOT, { index: false }));
 
 // Init middleware (garante DB + VAPID antes de qualquer rota)
 app.use(async (req, res, next) => {
